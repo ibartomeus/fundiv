@@ -1,14 +1,23 @@
-#let's do a weigthed CMW
-
-#library(FD)
-
-#debug values
-#x  <-  dummy$trait 
-#a  <-  dummy$abun
-#CWM.type  <- "dom"
-#bin.num  <-  NULL
-#Weigthedby  <-  "biomassValue" 
-#biomassValue  <- c(2,3,4,2,7,7,8,9)
+#' Functional Composition from FD package with the option to weith by biomass
+#' 
+#' functcomp returns the functional composition of a set of communities, as measured by the community-level weighted means of trait values (CWM; e.g. Lavorel et al. 2008).
+#' functcomp_w also allows to weight CWM by biomass
+#' 
+#' @param same as functcomp\code{}
+#' @param Weigthedby character string indicating if should be weighted by `abundance`
+#' or `biomassValue`. If biomassValue is in length units for Carabids or bees, 
+#' use options `biomasCarabids` or `biomasBees`.\code{}
+#'  @param  biomassValue numerical vector with body weigh (or length) values for each species
+#'  in the same order as species are provided.  \code{}
+#'
+#' @return a data frame containing the CWM values (weighted by abundance or by biomass) of each trait for each community.\code{}
+#'
+#' @export
+#' 
+#' @examples 
+#' ex1 <- functcomp(dummy$trait, dummy$abun, Weigthedby = "biomassValue", 
+#' biomassValue = c(1.2, 2.3, 0.6, 1.0, 3.4, 0.2, 1.6, 2.2))
+#' ex1
 
 functcomp_bm <- function (x, a, CWM.type = c("dom", "all"), bin.num = NULL,
                           Weigthedby = c("abundance", "biomasCarabids", "biomasBees", "biomassValue"), 
@@ -103,16 +112,3 @@ functcomp_bm <- function (x, a, CWM.type = c("dom", "all"), bin.num = NULL,
   temp <- data.frame(temp)
   return(temp)
 }
-
-#test
-
-#functcomp(x, a, CWM.type = "dom")
-#functcomp_bm(x, a, CWM.type = "dom", bin.num = NULL, Weigthedby =  "biomassValue", 
-                        #biomassValue  <- c(2,3,4,2,7,7,8,9))
-
-#functcomp(x, a, CWM.type = "all")
-#functcomp_bm(x, a, CWM.type = "all", bin.num = NULL, Weigthedby =  "biomassValue", 
-                        #biomassValue  <- c(2,3,4,2,7,7,8,9))
-
-#functcomp_bm(x, a, CWM.type = "dom", bin.num = NULL, Weigthedby =  "biomasBees", 
-              #biomassValue  <- c(2,3,4,2,7,7,8,9))

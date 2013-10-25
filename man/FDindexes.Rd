@@ -1,171 +1,159 @@
 \name{FDindexes}
 \alias{FDindexes}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{
-%%  ~~function to do ... ~~
-}
-\description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
-}
+\title{Wrapper to distance and Dendrogram Based Functional Diversity Indices}
 \usage{
-FDindexes(S, A, w = NA, Distance.method = "gower", ord = c("podani", "metric"), Cluster.method = c(ward = "ward", single = "single", complete = "complete", UPGMA = "average", UPGMC = "centroid", WPGMC = "median", WPGMA = "mcquitty"), stand.x = TRUE, corr = c("sqrt", "cailliez", "lingoes", "none"), stand.FRic = FALSE, m = "max", stand.FD = FALSE, scale.RaoQ = FALSE, Weigthedby = c("biomasCarabids", "biomasBees", "biomassValue"), biomassValue = rep(1, nrow(S)))
+  FDindexes(S, A, w = NA, Distance.method = "gower",
+    ord = c("podani", "metric"),
+    Cluster.method = c(ward = "ward", single = "single", complete = "complete", UPGMA = "average", UPGMC = "centroid", WPGMC = "median", WPGMA = "mcquitty"),
+    stand.x = TRUE,
+    corr = c("sqrt", "cailliez", "lingoes", "none"),
+    stand.FRic = FALSE, m = "max", stand.FD = FALSE,
+    scale.RaoQ = FALSE,
+    Weigthedby = c("biomasCarabids", "biomasBees", "biomassValue"),
+    biomassValue = rep(1, nrow(S)))
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{S}{
-%%     ~~Describe \code{S} here~~
-}
-  \item{A}{
-%%     ~~Describe \code{A} here~~
-}
-  \item{w}{
-%%     ~~Describe \code{w} here~~
-}
-  \item{Distance.method}{
-%%     ~~Describe \code{Distance.method} here~~
-}
-  \item{ord}{
-%%     ~~Describe \code{ord} here~~
-}
-  \item{Cluster.method}{
-%%     ~~Describe \code{Cluster.method} here~~
-}
-  \item{stand.x}{
-%%     ~~Describe \code{stand.x} here~~
-}
-  \item{corr}{
-%%     ~~Describe \code{corr} here~~
-}
-  \item{stand.FRic}{
-%%     ~~Describe \code{stand.FRic} here~~
-}
-  \item{m}{
-%%     ~~Describe \code{m} here~~
-}
-  \item{stand.FD}{
-%%     ~~Describe \code{stand.FD} here~~
-}
-  \item{scale.RaoQ}{
-%%     ~~Describe \code{scale.RaoQ} here~~
-}
-  \item{Weigthedby}{
-%%     ~~Describe \code{Weigthedby} here~~
-}
-  \item{biomassValue}{
-%%     ~~Describe \code{biomassValue} here~~
-}
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
+  \item{S}{matrix or data frame of functional traits.
+  Traits can be numeric, ordered, or factor. NAs are
+  tolerated.\code{}}
+
+  \item{A}{matrix containing the abundances of the species
+  in x (or presence-absence, i.e. 0 or 1). Rows are sites
+  and species are columns. NA not tolerated. The number of
+  species (columns) in a must match the number of species
+  (rows) in x. In addition, the species labels in a and x
+  must be identical and in the same order.\code{}}
+
+  \item{w}{vector listing the weights for the traits in x.
+  Can be missing, in which case all traits have equal
+  weights.\code{}}
+
+  \item{Distance.method}{metric to calculate the species
+  distance matrix. Only Gower is fully implemented.
+  \code{}}
+
+  \item{ord}{character string specifying the method to be
+  used for ordinal traits (i.e. ordered). "podani" refers
+  to Eqs. 2a-b of Podani (1999), while "metric" refers to
+  his Eq. 3. Can be abbreviated. See gowdis for more
+  details.\code{}}
+
+  \item{Cluster.method}{Distance method used to produce the
+  tree. UPGMA="average" is usually giving th ebest results
+  (Podani et al. 2011)\code{}}
+
+  \item{stand.x}{ogical; if all traits are numeric, should
+  they be standardized to mean 0 and unit variance? If not
+  all traits are numeric, Gower's (1971) standardization by
+  the range is automatically used; see gowdis for more
+  details.\code{}}
+
+  \item{stand.FD}{logical; should FD be standardized by the
+  max FD, so that FD is constrained between 0 and
+  1?\code{}}
+
+  \item{character}{string specifying the correction method
+  to use when the species-by-species distance matrix cannot
+  be represented in a Euclidean space. Options are "sqrt",
+  "cailliez", "lingoes", or "none". Can be abbreviated.
+  Default is "sqrt". See ‘details’ section.}
+
+  \item{stand.FRic}{logical; should FRic be standardized by
+  the ‘global’ FRic that include all species, so that FRic
+  is constrained between 0 and 1?}
+
+  \item{m}{the number of PCoA axes to keep as ‘traits’ for
+  calculating FRic (when FRic is measured as the convex
+  hull volume) and FDiv. Options are: any integer >1, "min"
+  (maximum number of traits that allows the s >= 2^t
+  condition to be met, where s is the number of species and
+  t the number of traits), or "max" (maximum number of axes
+  that allows the s > t condition to be met). See ‘details’
+  section.}
+
+  \item{scale.RaoQ}{logical; should Rao's Q be scaled by
+  its maximal value over all frequency distributions? See
+  divc.}
+
+  \item{Weigthedby}{character string indicating weighted by
+  biomass should be done on `biomassValue` or corrected
+  first for Carabids or bees. \code{}}
+
+  \item{biomassValue}{numerical vector with body weigh (or
+  length) values for each species in the same order as
+  species are provided. Default is 1, implying no
+  weightening \code{}}
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
-}
-\references{
-%% ~put references to the literature/web site here ~
-}
-\author{
-%%  ~~who you are~~
-}
-\note{
-%%  ~~further notes~~
-}
+  comm vector with the name of the community
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+  n_sp vector listing the number of species for each
+  community
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+  n_tr vector listing the number of traits used
+
+  FDpg vector listing FDpg (petchey and gaston) for each
+  community
+
+  FDw vector listing FD weighthed by species relative
+  abundances in each community
+
+  FDwcomm vector listing FD weighthed by species abundances
+  across all communities
+
+  qual.FD vector repeating the quality of the dendogram
+  representation. clustering performance is assessed by the
+  correlation with the cophenetic distance
+
+  FDw_bm FDw vector listing FD weighthed by species
+  relative biomass in each community
+
+  FDwcomm_bm vector listing FD weighthed by species biomass
+  across all communities
+
+  sing.sp vector listing the number of functionally
+  singular species in each community. If all species are
+  functionally different, sing.sp will be identical to
+  nbsp.
+
+  qual.FRic quality of the reduced-space representation
+  required to compute FRic and FDiv.
+
+  Frich vector listing the FRic of each community
+
+  Fdis vector listing the Fdis of each community
+
+  Fdis_bm vector listing the Fdis weighted by biomass of
+  each community
+
+  Feve vector listing the Feve of each community
+
+  Fdiv vector listing the Fdiv of each community
+
+  RaoQ vector listing the RaoQ of each community
+
+  Seve vector listing the species eveness (pielous J') of
+  each community
+
+  Shannon vector listing the diversitit Shannon index of
+  each community
+
+  Abund vector listing the Total abundance of each
+  community
+
+  TotalBiomass vector listing the total biomass of each
+  community
+
+  EvenessBiomass vector listing the eveness of biomass
+  distribution of each community
+}
+\description{
+  Calculate functional trait diversity for a set of
+  communities using FD_dendro and dbFD and returns a single
+  dataframe
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (S, A, w = NA, Distance.method = "gower", ord = c("podani", 
-    "metric"), Cluster.method = c(ward = "ward", single = "single", 
-    complete = "complete", UPGMA = "average", UPGMC = "centroid", 
-    WPGMC = "median", WPGMA = "mcquitty"), stand.x = TRUE, corr = c("sqrt", 
-    "cailliez", "lingoes", "none"), stand.FRic = FALSE, m = "max", 
-    stand.FD = FALSE, scale.RaoQ = FALSE, Weigthedby = c("biomasCarabids", 
-        "biomasBees", "biomassValue"), biomassValue = rep(1, 
-        nrow(S))) 
-{
-    require(FD)
-    require(cluster)
-    require(vegan)
-    Out <- data.frame(comm = rep(NA, nrow(A)), n_sp = rep(NA, 
-        nrow(A)), n_tr = rep(NA, nrow(A)), FDpg = rep(NA, nrow(A)), 
-        FDw = rep(NA, nrow(A)), FDwcomm = rep(NA, nrow(A)), qual.FD = rep(NA, 
-            nrow(A)), FDw_bm = rep(NA, nrow(A)), FDwcomm_bm = rep(NA, 
-            nrow(A)), sing.sp = rep(NA, nrow(A)), qual.FRic = rep(NA, 
-            nrow(A)), Frich = rep(NA, nrow(A)), Fdis = rep(NA, 
-            nrow(A)), Fdis_bm = rep(NA, nrow(A)), Feve = rep(NA, 
-            nrow(A)), Fdiv = rep(NA, nrow(A)), RaoQ = rep(NA, 
-            nrow(A)), Seve = rep(NA, nrow(A)), Shannon = rep(NA, 
-            nrow(A)), Abund = rep(NA, nrow(A)), TotalBiomass = rep(NA, 
-            nrow(A)), EvenessBiomass = rep(NA, nrow(A)))
-    Outdendro <- FD_dendro(S, A, w = w, Distance.method = Distance.method, 
-        ord = ord, Cluster.method = Cluster.method, stand.x = stand.x, 
-        stand.FD = stand.FD, Weigthedby = "abundance", biomassValue = NA)
-    Out[, 1] <- Outdendro$comm
-    Out[, 2] <- Outdendro$n_sp
-    Out[, 3] <- Outdendro$n_tr
-    Out[, 4] <- Outdendro$FDpg
-    Out[, 5] <- Outdendro$FDw
-    Out[, 6] <- Outdendro$FDwcomm
-    Out[, 7] <- Outdendro$qual.FD
-    Outdendro_bm <- FD_dendro(S, A, w = w, Distance.method = Distance.method, 
-        ord = ord, Cluster.method = Cluster.method, stand.x = stand.x, 
-        stand.FD = stand.FD, Weigthedby = Weigthedby, biomassValue = biomassValue)
-    Out[, 8] <- Outdendro_bm$FDw
-    Out[, 9] <- Outdendro_bm$FDwcomm
-    FD <- dbFD_w(S, A, calc.CWM = FALSE, corr = corr, stand.FRic = stand.FRic, 
-        ord = ord, m = m, stand.x = stand.x, scale.RaoQ = scale.RaoQ, 
-        Weigthedby = "abundance", biomassValue = NA)
-    Out[, 10] <- FD$sing.sp
-    Out[, 11] <- rep(FD$qual.FRic, nrow(A))
-    Out[, 12] <- FD$FRic
-    Out[, 13] <- FD$FDis
-    FD_bm <- dbFD_w(S, A, calc.CWM = FALSE, corr = corr, stand.FRic = stand.FRic, 
-        ord = ord, m = m, stand.x = stand.x, scale.RaoQ = scale.RaoQ, 
-        Weigthedby = Weigthedby, biomassValue = biomassValue)
-    Out[, 14] <- FD_bm$FDis
-    Out[, 15] <- FD$FEve
-    Out[, 16] <- FD$FDiv
-    Out[, 17] <- FD$RaoQ
-    eve <- rep(NA, nrow(A))
-    for (k in 1:nrow(A)) {
-        eve[k] <- diversity(A[k, ])/log(specnumber(A[k, ]))
-    }
-    Out[, 18] <- eve
-    Out[, 19] <- diversity(A)
-    Out[, 20] <- rowSums(A)
-    if (Weigthedby == "biomasCarabids") {
-        biomassValue2 <- Jelaska(biomassValue)
-    }
-    if (Weigthedby == "biomasBees") {
-        biomassValue2 <- Cane(biomassValue)
-    }
-    else {
-        biomassValue2 <- biomassValue
-    }
-    Out[, 21] <- rowSums(A * biomassValue2)
-    eve_bm <- rep(NA, nrow(A))
-    AA <- A * biomassValue2
-    for (k in 1:nrow(AA)) {
-        eve_bm[k] <- diversity(AA[k, ])/log(specnumber(AA[k, 
-            ]))
-    }
-    Out[, 22] <- eve_bm
-    Out
-  }
+ex1 <- FDindexes(dummy$trait, A = dummy$abun, Distance.method= "gower", ord= "podani",
+ex1
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+

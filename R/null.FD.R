@@ -1,4 +1,35 @@
-#null.FD------
+#' Calculate Null Model of FD values obtained under random species richness for a given community
+#' 
+#' work in progress to calculate FR ...
+#' 
+#' @param S matrix or data frame of functional traits. Traits can be numeric, ordered, 
+#' or factor. NAs are tolerated.\code{}
+#' @param A matrix containing the abundances of the species in x (or presence-absence,
+#'  i.e. 0 or 1). Rows are sites and species are columns. NA not tolerated. The number of
+#'  species (columns) in a must match the number of species (rows) in x. In addition, 
+#'  the species labels in a and x must be identical and in the same order.\code{}
+#' @param it number of iterations
+#' @param w vector listing the weights for the traits in x. Can be missing, 
+#' in which case all traits have equal weights.
+#' 
+#' @return comm vector listing the evaluated communities
+#' @return Rich vector with the observed species richness
+#' @return FD  vector with the observed FD index
+#' @return null_meanFD vector with the expected mean FD value for that richness 
+#' level under random conditions
+#' @return null_sdFD vector with the S.E. of the FD value for that richness 
+#' level under random conditions
+#' @return pFD  p-value comparing FD and its expected null
+#' @return Frich vector with the observed FD index
+#' @return null_meanFrich vector with the expected mean FD value for that richness 
+#' level under random conditions
+#' @return null_sdFrich vector with the S.E. of the FD value for that richness 
+#' level under random conditions
+#' @return pFrich p-value comparing FD and its expected null
+#' 
+#' 
+#' @export
+
 null.FD <- function(S, A, it, w = NA){
   require(GLDEX)
   #select richness levels
@@ -50,6 +81,6 @@ null.FD <- function(S, A, it, w = NA){
   out <- data.frame(comm = fun$comm[1:nrow(A)], Rich = fun$n_sp[1:nrow(A)] ,FD = fun$FD_PG[1:nrow(A)], 
                     null_meanFD = null_meanFD, null_sdFD = null_sdFD, pFD = round(pFD,4), 
                     Frich = fun$Frich[1:nrow(A)], null_meanFrich = null_meanFrich,
-                    null_sdFrich = null_sdFrich, pFD = round(pFrich,4))  
+                    null_sdFrich = null_sdFrich, pFrich = round(pFrich,4))  
   out
 }

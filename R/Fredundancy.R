@@ -1,11 +1,27 @@
-##FRedundancy----
+#' Calculate Functional Reduncancy
+#' 
+#' work in progress to calculate FR ...
+#' @param S matrix or data frame of functional traits. Traits can be numeric, ordered, 
+#' or factor. NAs are tolerated.\code{}
+#' @param A matrix containing the abundances of the species in x (or presence-absence,
+#'  i.e. 0 or 1). Rows are sites and species are columns. NA not tolerated. The number of
+#'  species (columns) in a must match the number of species (rows) in x. In addition, 
+#'  the species labels in a and x must be identical and in the same order.\code{}
+#' @param it number of iterations
+#' 
+#' @return site vector of sites
+#' @return rob_Fpg vector of robustness (indicates reduncancy) using petchey and Gaston index
+#' @return rob_FRich vector of robustness using distance-Based indexes (index) Laliberte
+#' 
+#' @export
+
 
 FRedundancy <- function(S, A, it = 10){
   rob <- data.frame(site = rownames(A), rob_FDpg = rep(NA,nrow(A)), 
                     rob_FRich = rep(NA,nrow(A)))
   #Note that we remove all species except for two, because you can not 
-  #calculate the FD on one species! That may be problematic for AUC's
-  #s is a given site
+  #calculate the FD on one species! #I AM PRETTY SURE I FIXED THIS; SO WE CAN UPDATE THE CODE TO REMOVE ALL
+  #That may be problematic for AUC's s is a given site
   for (s in 1:nrow(A)){
     #which species are not 0 on the community
     Ano0 <- A[s,-which(A[s,] == 0)] 

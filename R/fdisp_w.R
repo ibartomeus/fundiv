@@ -1,3 +1,26 @@
+#' Functional Dispersion from FD package with the option to weith by biomass
+#' 
+#' fdisp measures the functional dispersion (FDis) of a set of communities, as described by Laliberté and Legendre (2010).
+#' fdisp_w also allows to weight FDis by biomass
+#' 
+#' @param same as dbFD\code{}
+#' @param Weigthedby character string indicating if should be weighted by `abundance`
+#' or `biomassValue`. If biomassValue is in length units for Carabids or bees, 
+#' use options `biomasCarabids` or `biomasBees`.\code{}
+#'  @param  biomassValue numerical vector with body weigh (or length) values for each species
+#'  in the same order as species are provided.  \code{}
+#'
+#' @return same as dbFD\code{}
+#' @return FDis vector listing the FDis of each community weighted by abundance or biomass
+#'
+#' @export
+#' 
+#' @examples
+#' dummy.dist <- gowdis(dummy$trait)
+#' ex1 <- fdisp(dummy.dist, dummy$abun, Weigthedby = "biomassValue", 
+#' biomassValue = c(1.2, 2.3, 0.6, 1.0, 3.4, 0.2, 1.6, 2.2))
+#' ex1
+
 fdisp_w <- function(d, a, tol = 1e-07, Weigthedby = c("abundance", "biomasCarabids", "biomasBees", 
                                                       "biomassValue"), biomassValue = NA) {
   if (!inherits(d, "dist")) 
@@ -54,7 +77,7 @@ fdisp_w <- function(d, a, tol = 1e-07, Weigthedby = c("abundance", "biomasCarabi
     nb.sp <- nrow((unique(vec <- vectors[pres, , drop = F])))
     if (nb.sp >= 2) {
       w <- a[i, pres]
-      ##NB starts messing up things
+      ##IB edits start here
       #if Weigthedby is not abundance, transform weight to biomass
       if(Weigthedby != "abundance"){
         if(Weigthedby == "biomasCarabids"){
@@ -71,7 +94,7 @@ fdisp_w <- function(d, a, tol = 1e-07, Weigthedby = c("abundance", "biomasCarabi
           w <- w*biomassValue2[pres]
         }
       }
-      ##stop messing up things
+      ##stop edits
       centroid <- apply(vec, 2, weighted.mean, w = w)
       dist.pos <- sweep(vec[, pos, drop = F], 2, centroid[pos])
       dist.pos <- rowSums(dist.pos^2)

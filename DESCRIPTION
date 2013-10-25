@@ -3,8 +3,8 @@ Type: Package
 Title: tools to calculate several functional trait diversity indexes
 Version: 0.1.0
 Date: 2013-10-22
-Author: I. Bartomeus
-Maintainer: nacho.bartomeus@gmail.com
+Author: Ignasi Bartomeus <nacho.bartomeus@gmail.com>
+Maintainer: Ignasi Bartomeus <nacho.bartomeus@gmail.com>
 Depends:
     knitr,
     FD
@@ -13,14 +13,13 @@ Description: The package gather several metrics of functional trait diversity
     already developed and adds a few more
 License: CC
 Collate:
-    'Cane.R'
     'FD_Clark.R'
     'FD_dendro.R'
     'FDindexes.R'
     'Fredundancy.R'
-    'Jelaska.R'
     'Xtree.R'
     'dbFD_w.R'
     'fdisp_w.R'
     'functcomp_bm.R'
     'null.FD.R'
+    'length_mass.R'
