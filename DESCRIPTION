@@ -21,4 +21,4 @@ Collate:
     'fdisp_w.R'
     'functcomp_bm.R'
     'null.FD.R'
-    'length_mass.R'
+    'length_to_mass.R'
