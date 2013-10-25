@@ -8,7 +8,6 @@ Maintainer: Ignasi Bartomeus <nacho.bartomeus@gmail.com>
 Depends:
     knitr,
     FD
-VignetteBuilder: knitr
 Description: The package gather several metrics of functional trait diversity
     already developed and adds a few more
 License: CC
