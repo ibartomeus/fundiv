@@ -98,7 +98,8 @@ FD_Clark <- function(S, A, w = NA, Distance.method = "gower", ord= c("podani", "
     }else{
       biomassValue2 <- biomassValue 
     }
-    AA <- A*biomassValue2
+    AA <- A
+    for(i in 1:ncol(A)) AA[,i] <- A[,i]*biomassValue2[i]
   }else
     AA <- A
   #create an AFw matrix of relative abundances (/by max)

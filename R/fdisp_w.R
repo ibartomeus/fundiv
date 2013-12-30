@@ -75,26 +75,26 @@ fdisp_w <- function(d, a, tol = 1e-07, Weigthedby = c("abundance", "biomasCarabi
   for (i in 1:com) {
     pres <- which(a[i, ] > 0)
     nb.sp <- nrow((unique(vec <- vectors[pres, , drop = F])))
-    if (nb.sp >= 2) {
-      w <- a[i, pres]
-      ##IB edits start here
-      #if Weigthedby is not abundance, transform weight to biomass
-      if(Weigthedby != "abundance"){
-        if(Weigthedby == "biomasCarabids"){
-          biomassValue2 <- Jelaska(biomassValue)
-        }
-        if(Weigthedby == "biomasBees"){
-          biomassValue2 <- Cane(biomassValue)
-        }else{
-          biomassValue2 <- biomassValue 
-        }
-        if(is.vector(biomassValue2) == FALSE){ 
-          w <- w*biomassValue2[i,pres]
-        } else{        
-          w <- w*biomassValue2[pres]
-        }
+    #IB added code
+    #if Weigthedby is not abundance, transform weight to biomass
+    if(Weigthedby != "abundance"){
+      if(Weigthedby == "biomasCarabids"){
+        biomassValue2 <- Jelaska(biomassValue)
       }
-      ##stop edits
+      if(Weigthedby == "biomasBees"){
+        biomassValue2 <- Cane(biomassValue)
+      }else{
+        biomassValue2 <- biomassValue 
+      }
+      AA <- a
+      for(i in 1:ncol(a)) AA[,i] <- a[,i]*biomassValue2[i]
+    }
+    if (nb.sp >= 2) {
+      if(Weigthedby != "abundance"){
+        w <- AA[i, pres]
+      }else{
+        w <- a[i, pres]  
+      }
       centroid <- apply(vec, 2, weighted.mean, w = w)
       dist.pos <- sweep(vec[, pos, drop = F], 2, centroid[pos])
       dist.pos <- rowSums(dist.pos^2)

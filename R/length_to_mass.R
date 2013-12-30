@@ -23,8 +23,9 @@
 #' @export
 #' 
 length_to_mass <- function(x, taxa = c("Bees", "Carabids")){
-  if(taxa == "Bees")Cane(x)
-  if(taxa == "Carabids")Jelaska(x)
+  if(taxa == "Bees")Out <- Cane(x)
+  if(taxa == "Carabids")Out <- Jelaska(x)
+  Out
 }
 #' @examples
 #' length_to_mass(c(1.2, 2.3, 0.6), "Bees")

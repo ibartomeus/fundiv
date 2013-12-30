@@ -44,11 +44,9 @@
 #' @export
 #' 
 #' @examples 
-#' ex1 <- FD_dendro(dummy$trait, dummy$abun, Cluster.method = "average", ord = "podani"
+#' ex1 <- FD_dendro(S = dummy$trait, A = dummy$abun, Cluster.method = "average", ord = "podani",
 #'                     Weigthedby = "abundance")
 #' ex1
-
-
 FD_dendro <- function(S, A, w = NA, Distance.method = "gower", ord= c("podani", "metric"),
                   Cluster.method = c(ward="ward",single="single",complete="complete",
                                      UPGMA="average",UPGMC="centroid",WPGMC="median",
@@ -98,7 +96,8 @@ FD_dendro <- function(S, A, w = NA, Distance.method = "gower", ord= c("podani", 
     }else{
       biomassValue2 <- biomassValue 
     }
-    AA <- A*biomassValue2
+    AA <- A
+    for(i in 1:ncol(A)) AA[,i] <- A[,i]*biomassValue2[i]
   }else
     AA <- A
   #create an AFw matrix of relative abundances (/by max)
@@ -133,13 +132,15 @@ FD_dendro <- function(S, A, w = NA, Distance.method = "gower", ord= c("podani", 
     #Get the total weigthing for each branch in a vector (i.primeW)
     i.primeW <- c(1:ncol(xtree.weigths))
     for(k in 1:ncol(xtree.weigths)){
+        #For each branch chunk, take the mean weight,
+        #This is equivalent to a weighted mean of the branch lenght contribution
       if(sum(xtree.weigths[which(xtree.weigths[,k] > 0),k]) != 0){
-        i.primeW[k] <- prod(xtree.weigths[which(xtree.weigths[,k] > 0),k], na.rm = TRUE)
+          i.primeW[k] <- mean(xtree.weigths[which(xtree.weigths[,k] > 0),k], na.rm = TRUE) 
       }else{
-        i.primeW[k] <- 0
+          i.primeW[k] <- 0
       }
     }
-    #FDw is the sum of the product of i.primeW and h2.prime
+    #FDw is the sum of the product of i.primeW (weigth) and h2.prime (branch length)
     Out[i,5] <- sum(i.primeW*xtree$h2.prime)
     
     ##Calculate FDwcom
@@ -153,10 +154,10 @@ FD_dendro <- function(S, A, w = NA, Distance.method = "gower", ord= c("podani", 
     #Get the total weigthing for each branch in a vector (i.primeW)
     i.primeW <- c(1:ncol(xtree.weigths))
     for(k in 1:ncol(xtree.weigths)){
-      if(sum(xtree.weigths[which(xtree.weigths[,k] > 0),k]) != 0){
-        i.primeW[k] <- prod(xtree.weigths[which(xtree.weigths[,k] > 0),k], na.rm = TRUE)
+        if(sum(xtree.weigths[which(xtree.weigths[,k] > 0),k]) != 0){
+            i.primeW[k] <-mean(xtree.weigths[which(xtree.weigths[,k] > 0),k], na.rm = TRUE) 
       }else{
-        i.primeW[k] <- 0
+          i.primeW[k] <- 0
       }
     }
     #FD is the sum of the product of i.primeW and h2.prime

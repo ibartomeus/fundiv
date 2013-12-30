@@ -1,4 +1,4 @@
-#' Wrapper to distance and Dendrogram Based Functional Diversity Indices 
+#' Wrapper to Space and Dendrogram Based Functional Diversity Indices 
 #' 
 #' Calculate functional trait diversity for a set of communities using FD_dendro 
 #' and dbFD and returns a single dataframe
@@ -66,20 +66,26 @@
 #' @return Fdis vector listing the Fdis of each community
 #' @return Fdis_bm vector listing the Fdis weighted by biomass of each community
 #' @return Feve vector listing the Feve of each community
+#' @return Feve_bm vector listing the Feve weighted by biomass of each community
 #' @return Fdiv vector listing the Fdiv of each community
+#' @return Fdiv_bm vector listing the Fdiv weighted by biomass of each community
 #' @return RaoQ vector listing the RaoQ of each community
+#' @return RaoQ_bm vector listing the RaoQ weighted by biomass of each community
 #' @return Seve vector listing the species eveness (pielous J') of each community
 #' @return Shannon vector listing the diversitit Shannon index of each community
 #' @return Abund vector listing the Total abundance of each community
 #' @return TotalBiomass vector listing the total biomass of each community
 #' @return EvenessBiomass vector listing the eveness of biomass distribution
 #' of each community
+#' @return ShannonBiomass vector listing the Shannon of the diversity weighted by biomass
+#' of each community. I am not sure that makes any sense.
 #' 
 #' @export
 #' 
 #' @examples 
 #' ex1 <- FDindexes(dummy$trait, A = dummy$abun, Distance.method= "gower", ord= "podani", 
-#                    Cluster.method= "average", corr= "cailliez", Weigthedby = "biomassValue")
+#'                  Cluster.method= "average", corr= "cailliez", Weigthedby = "biomassValue",
+#'                  biomassValue = c(1.2, 2.3, 0.6, 1.0, 3.4, 0.2, 1.6, 2.2))
 #' ex1
 
 
@@ -109,13 +115,17 @@ FDindexes <- function(S, A, w = NA, Distance.method = "gower", ord= c("podani", 
                     Fdis = rep(NA,nrow(A)),
                     Fdis_bm = rep(NA,nrow(A)),
                     Feve = rep(NA,nrow(A)),
+                    Feve_bm = rep(NA,nrow(A)),
                     Fdiv = rep(NA,nrow(A)),
+                    Fdiv_bm = rep(NA,nrow(A)),
                     RaoQ = rep(NA,nrow(A)),
+                    RaoQ_bm = rep(NA,nrow(A)),
                     Seve = rep(NA,nrow(A)),
                     Shannon = rep(NA,nrow(A)),
                     Abund = rep(NA,nrow(A)),
                     TotalBiomass = rep(NA,nrow(A)),
-                    EvenessBiomass = rep(NA,nrow(A)))
+                    EvenessBiomass = rep(NA,nrow(A)),
+                    ShannonBiomass = rep(NA,nrow(A)))
   #calculate FD for metrics using dendrograms
   Outdendro <- FD_dendro(S, A, w = w, Distance.method = Distance.method, ord= ord,
                          Cluster.method = Cluster.method, stand.x = stand.x, stand.FD = stand.FD,
@@ -148,17 +158,20 @@ FDindexes <- function(S, A, w = NA, Distance.method = "gower", ord= c("podani", 
                biomassValue = biomassValue)
   Out[,14] <- FD_bm$FDis
   Out[,15] <- FD$FEve
-  Out[,16] <- FD$FDiv
-  Out[,17] <- FD$RaoQ
+  Out[,16] <- FD_bm$FEve
+  Out[,17] <- FD$FDiv
+  Out[,18] <- FD_bm$FDiv
+  Out[,19] <- FD$RaoQ
+  Out[,20] <- FD_bm$RaoQ
   #calculate species eveness Pielous
   eve <- rep(NA,nrow(A))
   for (k in 1:nrow(A)){
     eve[k] <- diversity(A[k,])/log(specnumber(A[k,]))
   }
-  Out[,18] <- eve
+  Out[,21] <- eve
   #calculate abundance and shannon
-  Out[,19] <- diversity(A)
-  Out[,20] <- rowSums(A)
+  Out[,22] <- diversity(A)
+  Out[,23] <- rowSums(A)
   if(Weigthedby == "biomasCarabids"){
     biomassValue2 <- Jelaska(biomassValue)
   }
@@ -167,13 +180,18 @@ FDindexes <- function(S, A, w = NA, Distance.method = "gower", ord= c("podani", 
   }else{
     biomassValue2 <- biomassValue 
   }
-  Out[,21] <- rowSums(A*biomassValue2)
-  #eveness of total biomass
+  AA <- A
+  for(i in 1:ncol(A)) AA[,i] <- A[,i]*biomassValue2[i]
+  #eveness and Shannon of total biomass
+  #Total biomass
+  Out[,24] <- rowSums(AA)
+  #Eveness_bm
   eve_bm <- rep(NA,nrow(A))
-  AA <- A*biomassValue2
   for (k in 1:nrow(AA)){
     eve_bm[k] <- diversity(AA[k,])/log(specnumber(AA[k,]))
   }
-  Out[,22] <- eve_bm
+  Out[,25] <- eve_bm
+  #Shannon_bm
+  Out[,26] <- diversity(AA)  
   Out
 }

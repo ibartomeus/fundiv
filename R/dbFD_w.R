@@ -16,19 +16,21 @@
 #' @export
 #' 
 #' @examples 
-#' ex1 <- dbFD_w(dummy$trait, dummy$abun, Weigthedby = "biomassValue", 
+#' ex1 <- dbFD_w(x = dummy$trait, a = dummy$abun, Weigthedby = "biomassValue", 
 #' biomassValue = c(1.2, 2.3, 0.6, 1.0, 3.4, 0.2, 1.6, 2.2))
 #' ex1
 
-dbFD_w <- function (x, a, w, w.abun = TRUE, stand.x = TRUE, ord = c("podani", 
-                                                          "metric"), asym.bin = NULL, corr = c("sqrt", "cailliez", 
-                                                                                               "lingoes", "none"), calc.FRic = TRUE, m = "max", stand.FRic = FALSE, 
-          scale.RaoQ = FALSE, calc.FGR = FALSE, clust.type = "ward", 
-          km.inf.gr = 2, km.sup.gr = nrow(x) - 1, km.iter = 100, km.crit = c("calinski", 
-                                                                             "ssi"), calc.CWM = TRUE, CWM.type = c("dom", "all"), 
-          calc.FDiv = TRUE, dist.bin = 2, print.pco = FALSE, messages = TRUE, Weigthedby = c("abundance", "biomasCarabids", "biomasBees", 
-                                                                                             "biomassValue"), biomassValue = NA) 
-{
+dbFD_w <- function (x, a, w, w.abun = TRUE, stand.x = TRUE, 
+                    ord = c("podani","metric"), asym.bin = NULL, 
+                    corr = c("sqrt", "cailliez", "lingoes", "none"), 
+                    calc.FRic = TRUE, m = "max", stand.FRic = FALSE, 
+                    scale.RaoQ = FALSE, calc.FGR = FALSE, clust.type = "ward", 
+                    km.inf.gr = 2, km.sup.gr = nrow(x) - 1, km.iter = 100, 
+                    km.crit = c("calinski", "ssi"), calc.CWM = TRUE, 
+                    CWM.type = c("dom", "all"), calc.FDiv = TRUE, dist.bin = 2, 
+                    print.pco = FALSE, messages = TRUE, 
+                    Weigthedby = c("abundance", "biomasCarabids", "biomasBees",
+                                   "biomassValue"), biomassValue = NA) {
   tol <- .Machine$double.eps
   corr <- match.arg(corr)
   ord <- match.arg(ord)
@@ -597,7 +599,24 @@ dbFD_w <- function (x, a, w, w.abun = TRUE, stand.x = TRUE, ord = c("podani",
     }
     return(div)
   }
-  RaoQ <- divc(data.frame(t(a)), x.dist, scale = scale.RaoQ)
+  #IB added code
+  #if Weigthedby is not abundance, transform weight to biomass
+  if(Weigthedby != "abundance"){
+    if(Weigthedby == "biomasCarabids"){
+      biomassValue2 <- Jelaska(biomassValue)
+    }
+    if(Weigthedby == "biomasBees"){
+      biomassValue2 <- Cane(biomassValue)
+    }else{
+      biomassValue2 <- biomassValue 
+    }
+    AA <- a
+    for(i in 1:ncol(a)) AA[,i] <- a[,i]*biomassValue2[i]
+    RaoQ <- divc(data.frame(t(AA)), x.dist, scale = scale.RaoQ)    
+  }else{    
+  RaoQ <- divc(data.frame(t(a)), x.dist, scale = scale.RaoQ) #original line
+  }
+  ##stop edits
   RaoQ <- RaoQ[, 1]
   names(RaoQ) <- rownames(a)
   disp <- fdisp_w(x.dist, a, Weigthedby = Weigthedby, biomassValue = biomassValue)
@@ -619,7 +638,13 @@ dbFD_w <- function (x, a, w, w.abun = TRUE, stand.x = TRUE, ord = c("podani",
     tr <- data.frame(traits[sppres, ])
     if (calc.FRic) 
       tr.FRic <- data.frame(traits.FRic[sppres, ])
-    ab <- as.matrix(a[i, sppres])
+    #start edits IB
+    if(Weigthedby != "abundance"){
+      ab <- as.matrix(AA[i, sppres])
+    }else{
+      ab <- as.matrix(a[i, sppres])
+    }
+    #end
     abundrel <- ab/sum(ab)
     if (calc.FRic) {
       if (all(x.class2 == "factor" | x.class2 == "ordered")) {

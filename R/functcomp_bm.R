@@ -59,7 +59,7 @@ functcomp_bm <- function (x, a, CWM.type = c("dom", "all"), bin.num = NULL,
   type[type == "ordered"] <- "O"
   type[type == "factor"] <- "N"
   type[bin.var] <- "B"
-  ##NB starts messing up things
+  ##IB starts edits
   #if Weigthedby is not abundance, transform weight to biomass
   if(Weigthedby != "abundance"){
     if(Weigthedby == "biomasCarabids"){
@@ -71,7 +71,7 @@ functcomp_bm <- function (x, a, CWM.type = c("dom", "all"), bin.num = NULL,
       biomassValue2 <- biomassValue 
     }
     #now multiply abundances (a) for biomass
-    a <- a*biomassValue2
+    for(i in 1:ncol(a)) a[,i] <- a[,i]*biomassValue2[i]
   }
   ##stop messing up things
   sum.a <- apply(a, 1, sum)
