@@ -17,7 +17,7 @@
 #' 
 #' @examples
 #' dummy.dist <- gowdis(dummy$trait)
-#' ex1 <- fdisp(dummy.dist, dummy$abun, Weigthedby = "biomassValue", 
+#' ex1 <- fdisp_w(dummy.dist, dummy$abun, Weigthedby = "biomassValue", 
 #' biomassValue = c(1.2, 2.3, 0.6, 1.0, 3.4, 0.2, 1.6, 2.2))
 #' ex1
 
@@ -87,7 +87,7 @@ fdisp_w <- function(d, a, tol = 1e-07, Weigthedby = c("abundance", "biomasCarabi
         biomassValue2 <- biomassValue 
       }
       AA <- a
-      for(i in 1:ncol(a)) AA[,i] <- a[,i]*biomassValue2[i]
+      for(j in 1:ncol(a)) AA[,j] <- a[,j]*biomassValue2[j]
     }
     if (nb.sp >= 2) {
       if(Weigthedby != "abundance"){
