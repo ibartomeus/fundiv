@@ -11,8 +11,9 @@
 
   \item{Weigthedby}{character string indicating if should
   be weighted by `abundance` or `biomassValue`. If
-  biomassValue is in length units for Carabids or bees, use
-  options `biomasCarabids` or `biomasBees`.\code{}}
+  biomassValue is in "length" units for Carabids or bees,
+  use options `biomasCarabids` or `biomasBees` to
+  automatically convert to mass.\code{}}
 
   \item{biomassValue}{numerical vector with body weigh (or
   length) values for each species in the same order as
@@ -31,7 +32,7 @@
 }
 \examples{
 dummy.dist <- gowdis(dummy$trait)
-ex1 <- fdisp(dummy.dist, dummy$abun, Weigthedby = "biomassValue",
+ex1 <- fdisp_w(dummy.dist, dummy$abun, Weigthedby = "biomassValue",
 biomassValue = c(1.2, 2.3, 0.6, 1.0, 3.4, 0.2, 1.6, 2.2))
 ex1
 }

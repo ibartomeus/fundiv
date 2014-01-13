@@ -1,6 +1,6 @@
 \name{FDindexes}
 \alias{FDindexes}
-\title{Wrapper to distance and Dendrogram Based Functional Diversity Indices}
+\title{Wrapper to Space and Dendrogram Based Functional Diversity Indices}
 \usage{
   FDindexes(S, A, w = NA, Distance.method = "gower",
     ord = c("podani", "metric"),
@@ -18,10 +18,10 @@
   tolerated.\code{}}
 
   \item{A}{matrix containing the abundances of the species
-  in x (or presence-absence, i.e. 0 or 1). Rows are sites
+  in S (or presence-absence, i.e. 0 or 1). Rows are sites
   and species are columns. NA not tolerated. The number of
-  species (columns) in a must match the number of species
-  (rows) in x. In addition, the species labels in a and x
+  species (columns) in A must match the number of species
+  (rows) in S. In addition, the species labels in A and S
   must be identical and in the same order.\code{}}
 
   \item{w}{vector listing the weights for the traits in x.
@@ -35,8 +35,7 @@
   \item{ord}{character string specifying the method to be
   used for ordinal traits (i.e. ordered). "podani" refers
   to Eqs. 2a-b of Podani (1999), while "metric" refers to
-  his Eq. 3. Can be abbreviated. See gowdis for more
-  details.\code{}}
+  his Eq. 3. See gowdis for more details.\code{}}
 
   \item{Cluster.method}{Distance method used to produce the
   tree. UPGMA="average" is usually giving th ebest results
@@ -68,8 +67,8 @@
   (maximum number of traits that allows the s >= 2^t
   condition to be met, where s is the number of species and
   t the number of traits), or "max" (maximum number of axes
-  that allows the s > t condition to be met). See ‘details’
-  section.}
+  that allows the s > t condition to be met). See ‘dbFD’
+  details section.}
 
   \item{scale.RaoQ}{logical; should Rao's Q be scaled by
   its maximal value over all frequency distributions? See
@@ -128,9 +127,18 @@
 
   Feve vector listing the Feve of each community
 
+  Feve_bm vector listing the Feve weighted by biomass of
+  each community
+
   Fdiv vector listing the Fdiv of each community
 
+  Fdiv_bm vector listing the Fdiv weighted by biomass of
+  each community
+
   RaoQ vector listing the RaoQ of each community
+
+  RaoQ_bm vector listing the RaoQ weighted by biomass of
+  each community
 
   Seve vector listing the species eveness (pielous J') of
   each community
@@ -146,6 +154,10 @@
 
   EvenessBiomass vector listing the eveness of biomass
   distribution of each community
+
+  ShannonBiomass vector listing the Shannon of the
+  diversity weighted by biomass of each community. I am not
+  sure this one makes much sense.
 }
 \description{
   Calculate functional trait diversity for a set of
@@ -154,6 +166,8 @@
 }
 \examples{
 ex1 <- FDindexes(dummy$trait, A = dummy$abun, Distance.method= "gower", ord= "podani",
+                 Cluster.method= "average", corr= "cailliez", Weigthedby = "biomassValue",
+                 biomassValue = c(1.2, 2.3, 0.6, 1.0, 3.4, 0.2, 1.6, 2.2))
 ex1
 }
 

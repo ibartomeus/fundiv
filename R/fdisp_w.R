@@ -5,10 +5,10 @@
 #' 
 #' @param same as dbFD\code{}
 #' @param Weigthedby character string indicating if should be weighted by `abundance`
-#' or `biomassValue`. If biomassValue is in length units for Carabids or bees, 
-#' use options `biomasCarabids` or `biomasBees`.\code{}
-#'  @param  biomassValue numerical vector with body weigh (or length) values for each species
-#'  in the same order as species are provided.  \code{}
+#' or `biomassValue`. If biomassValue is in "length" units for Carabids or bees, 
+#' use options `biomasCarabids` or `biomasBees` to automatically convert to mass.\code{}
+#' @param  biomassValue numerical vector with body weigh (or length) values for each species
+#' in the same order as species are provided.  \code{}
 #'
 #' @return same as dbFD\code{}
 #' @return FDis vector listing the FDis of each community weighted by abundance or biomass

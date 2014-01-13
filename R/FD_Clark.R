@@ -1,23 +1,23 @@
-#' Dendrogram-Based Functional Diversity weighted Indices used in Clarck et al 2012
 #' 
-#' Calculate functional trait diversity for a set of communities using Ptchey and Gaston 2002 index 
+#' Dendrogram-Based Functional Diversity weighted Indices used in Clarck et al 2012 (plos One)
+#' Calculate functional trait diversity for a set of communities using Petchey and Gaston 2002 index 
 #' weighted version used in Clarck et al 2012
 #' 
 #' @param S matrix or data frame of functional traits. Traits can be numeric, ordered, 
 #' or factor. NAs are tolerated.\code{}
-#' @param A matrix containing the abundances of the species in x (or presence-absence,
-#'  i.e. 0 or 1). Rows are sites and species are columns. NA not tolerated. The number of
-#'  species (columns) in a must match the number of species (rows) in x. In addition, 
-#'  the species labels in a and x must be identical and in the same order.\code{}
+#' @param A matrix containing the abundances of the species in S (or presence-absence,
+#' i.e. 0 or 1). Rows are sites and species are columns. NA not tolerated. The number of
+#' species (columns) in A must match the number of species (rows) in S. In addition, 
+#' the species labels in A and S must be identical and in the same order.\code{}
 #' @param w vector listing the weights for the traits in x. Can be missing, 
 #' in which case all traits have equal weights.\code{}
 #' @param Distance.method metric to calculate the species distance matrix. Only Gower is
-#'  implemented. \code{}
+#' implemented. \code{}
 #' @param ord character string specifying the method to be used for ordinal traits 
 #' (i.e. ordered). "podani" refers to Eqs. 2a-b of Podani (1999), while "metric" 
-#' refers to his Eq. 3. Can be abbreviated. See gowdis for more details.\code{}
+#' refers to his Eq. 3. See gowdis for more details.\code{}
 #' @param Cluster.method Distance method used to produce the tree. UPGMA="average" is 
-#' usually giving th ebest results (Podani et al. 2011)\code{}
+#' usually giving the best results (Podani et al. 2011)\code{}
 #' @param stand.x ogical; if all traits are numeric, should they be standardized 
 #' to mean 0 and unit variance? If not all traits are numeric, Gower's (1971) 
 #' standardization by the range is automatically used; see gowdis for more details.\code{}
@@ -27,7 +27,7 @@
 #' or `biomassValue`. If biomassValue is in length units for Carabids or bees, 
 #' use options `biomasCarabids` or `biomasBees`.\code{}
 #' @param  biomassValue numerical vector with body weigh (or length) values for each species
-#'  in the same order as species are provided.  \code{}
+#' in the same order as species are provided.  \code{}
 #'
 #' @return comm vector with the name of the community
 #' @return n_sp vector listing the number of species for each community
@@ -38,13 +38,13 @@
 #' @return FDjointabund See Clark description.
 #' 
 #' @note This indexes are highly correlated with FDw and FDwcomm, but 
-#'  1) the use of recalculated dendograms for each community is advised
-#'  2) can not be applied to categorical traits (ignored in the function) 
+#'  1) the use of recalculated dendograms for each community is not advised
+#'  2) can not be applied to categorical traits (ignored in this function) 
 #' 
 #' @export
 #' 
 #' @examples 
-#' ex1 <- FD_Clark(dummy$trait, dummy$abun, Cluster.method = "average", ord = "podani"
+#' ex1 <- FD_Clark(S = dummy$trait, A = dummy$abun, Cluster.method = "average", ord = "podani",
 #'                     Weigthedby = "abundance")
 #' ex1
 
@@ -107,7 +107,7 @@ FD_Clark <- function(S, A, w = NA, Distance.method = "gower", ord= c("podani", "
   for(k in 1:nrow(AA)){
     AFw[k,] <- AA[k,]/max(AA[k,])
   }
-  #Calculate FDi for each community
+  #Calculate FD indexes for each community
   for(i in 1:nrow(A)){
     
     #Species richness
@@ -149,15 +149,14 @@ FD_Clark <- function(S, A, w = NA, Distance.method = "gower", ord= c("podani", "
       for (j in 1:dim(Sabund)[2]) bin.var[j] <- is.bin(Sabund[, j])
       if(any(bin.var == TRUE)){
         Sabund[,which(bin.var == TRUE)] <- sapply(Sabund[, which(bin.var == TRUE)], as.numeric)
-      } else{     #end of the fix
-        Dabund <- gowdis(Sabund, w = wabund, ord= ord)
-      }
+      } #end of the fix
+      Dabund <- gowdis(Sabund, w = wabund, ord= ord)
     } else{
       Dabund <- dist(Sabund, method = Distance.method)
     }
     #Obtain the comm based dendrogram
     if(attr(Dabund, "Size") <= 2){
-      print("FDabund not calculated for <= 2 species. NA inserted")
+      print("FDabund not calculated for communities with < 3 species. NA inserted")
       Out[i,5] <- NA
     }else{
       treeabund <- hclust(Dabund, method = Cluster.method)
@@ -186,7 +185,7 @@ FD_Clark <- function(S, A, w = NA, Distance.method = "gower", ord= c("podani", "
     Dw <- as.dist(Dw2)
     #Obtain the dendrogram for the modified distance matrix
     if(attr(Dw, "Size") <= 2){
-      print("FDjointabund not calculated for <= 2 species. NA inserted")
+      print("FDjointabund not calculated for communities with < 3 species. NA inserted")
       Out[i,6] <- NA
     }else{
       tree_jointabund <- hclust(Dw, method = Cluster.method)

@@ -1,6 +1,8 @@
 \name{FD_Clark}
 \alias{FD_Clark}
-\title{Dendrogram-Based Functional Diversity weighted Indices used in Clarck et al 2012}
+\title{Dendrogram-Based Functional Diversity weighted Indices used in Clarck et al 2012 (plos One)
+Calculate functional trait diversity for a set of communities using Petchey and Gaston 2002 index
+weighted version used in Clarck et al 2012}
 \usage{
   FD_Clark(S, A, w = NA, Distance.method = "gower",
     ord = c("podani", "metric"),
@@ -15,10 +17,10 @@
   tolerated.\code{}}
 
   \item{A}{matrix containing the abundances of the species
-  in x (or presence-absence, i.e. 0 or 1). Rows are sites
+  in S (or presence-absence, i.e. 0 or 1). Rows are sites
   and species are columns. NA not tolerated. The number of
-  species (columns) in a must match the number of species
-  (rows) in x. In addition, the species labels in a and x
+  species (columns) in A must match the number of species
+  (rows) in S. In addition, the species labels in A and S
   must be identical and in the same order.\code{}}
 
   \item{w}{vector listing the weights for the traits in x.
@@ -31,11 +33,10 @@
   \item{ord}{character string specifying the method to be
   used for ordinal traits (i.e. ordered). "podani" refers
   to Eqs. 2a-b of Podani (1999), while "metric" refers to
-  his Eq. 3. Can be abbreviated. See gowdis for more
-  details.\code{}}
+  his Eq. 3. See gowdis for more details.\code{}}
 
   \item{Cluster.method}{Distance method used to produce the
-  tree. UPGMA="average" is usually giving th ebest results
+  tree. UPGMA="average" is usually giving the best results
   (Podani et al. 2011)\code{}}
 
   \item{stand.x}{ogical; if all traits are numeric, should
@@ -74,18 +75,20 @@
   FDjointabund See Clark description.
 }
 \description{
-  Calculate functional trait diversity for a set of
-  communities using Ptchey and Gaston 2002 index weighted
-  version used in Clarck et al 2012
+  Dendrogram-Based Functional Diversity weighted Indices
+  used in Clarck et al 2012 (plos One) Calculate functional
+  trait diversity for a set of communities using Petchey
+  and Gaston 2002 index weighted version used in Clarck et
+  al 2012
 }
 \note{
   This indexes are highly correlated with FDw and FDwcomm,
   but 1) the use of recalculated dendograms for each
-  community is advised 2) can not be applied to categorical
-  traits (ignored in the function)
+  community is not advised 2) can not be applied to
+  categorical traits (ignored in this function)
 }
 \examples{
-ex1 <- FD_Clark(dummy$trait, dummy$abun, Cluster.method = "average", ord = "podani"
+ex1 <- FD_Clark(S = dummy$trait, A = dummy$abun, Cluster.method = "average", ord = "podani",
                     Weigthedby = "abundance")
 ex1
 }

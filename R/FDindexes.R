@@ -5,17 +5,17 @@
 #' 
 #' @param S matrix or data frame of functional traits. Traits can be numeric, ordered, 
 #' or factor. NAs are tolerated.\code{}
-#' @param A matrix containing the abundances of the species in x (or presence-absence,
-#'  i.e. 0 or 1). Rows are sites and species are columns. NA not tolerated. The number of
-#'  species (columns) in a must match the number of species (rows) in x. In addition, 
-#'  the species labels in a and x must be identical and in the same order.\code{}
+#' @param A matrix containing the abundances of the species in S (or presence-absence,
+#' i.e. 0 or 1). Rows are sites and species are columns. NA not tolerated. The number of
+#' species (columns) in A must match the number of species (rows) in S. In addition, 
+#' the species labels in A and S must be identical and in the same order.\code{}
 #' @param w vector listing the weights for the traits in x. Can be missing, 
 #' in which case all traits have equal weights.\code{}
 #' @param Distance.method metric to calculate the species distance matrix. Only Gower is
-#'  fully implemented. \code{}
+#' fully implemented. \code{}
 #' @param ord character string specifying the method to be used for ordinal traits 
 #' (i.e. ordered). "podani" refers to Eqs. 2a-b of Podani (1999), while "metric" 
-#' refers to his Eq. 3. Can be abbreviated. See gowdis for more details.\code{}
+#' refers to his Eq. 3. See gowdis for more details.\code{}
 #' @param Cluster.method Distance method used to produce the tree. UPGMA="average" is 
 #' usually giving th ebest results (Podani et al. 2011)\code{}
 #' @param stand.x ogical; if all traits are numeric, should they be standardized 
@@ -28,19 +28,19 @@
 #' Options are "sqrt", "cailliez", "lingoes", or "none". Can be abbreviated. 
 #' Default is "sqrt". See ‘details’ section.
 #' @param stand.FRic logical; should FRic be standardized by the ‘global’ FRic
-#'  that include all species, so that FRic is constrained between 0 and 1? 
+#' that include all species, so that FRic is constrained between 0 and 1? 
 #' @param m the number of PCoA axes to keep as ‘traits’ for calculating FRic 
 #' (when FRic is measured as the convex hull volume) and FDiv. Options are: 
 #' any integer >1, "min" (maximum number of traits that allows the s >= 2^t 
 #' condition to be met, where s is the number of species and t the number of 
 #' traits), or "max" (maximum number of axes that allows the s > t condition 
-#' to be met). See ‘details’ section.
+#' to be met). See ‘dbFD’ details section.
 #' @param scale.RaoQ logical; should Rao's Q be scaled by its maximal value over
 #' all frequency distributions? See divc.
 #' @param Weigthedby character string indicating weighted by biomass should be done 
 #' on `biomassValue` or corrected first for Carabids or bees. \code{}
 #' @param  biomassValue numerical vector with body weigh (or length) values for each species
-#'  in the same order as species are provided. Default is 1, implying no weightening  \code{}
+#' in the same order as species are provided. Default is 1, implying no weightening  \code{}
 #' 
 #'
 #' @return comm vector with the name of the community
@@ -52,7 +52,7 @@
 #' @return FDwcomm vector listing FD weighthed by species abundances 
 #' across all communities
 #' @return qual.FD vector repeating the quality of the dendogram representation.
-#'clustering  performance is assessed by the correlation with the cophenetic distance
+#' clustering  performance is assessed by the correlation with the cophenetic distance
 #' @return FDw_bm FDw vector listing FD weighthed by species relative biomass 
 #' in each community
 #' @return FDwcomm_bm vector listing FD weighthed by species biomass 
@@ -78,7 +78,7 @@
 #' @return EvenessBiomass vector listing the eveness of biomass distribution
 #' of each community
 #' @return ShannonBiomass vector listing the Shannon of the diversity weighted by biomass
-#' of each community. I am not sure that makes any sense.
+#' of each community. I am not sure this one makes much sense.
 #' 
 #' @export
 #' 
@@ -166,7 +166,11 @@ FDindexes <- function(S, A, w = NA, Distance.method = "gower", ord= c("podani", 
   #calculate species eveness Pielous
   eve <- rep(NA,nrow(A))
   for (k in 1:nrow(A)){
+    if(specnumber(A[k,]) == 1){
+      eve[k] <- "NA"
+    }else{
     eve[k] <- diversity(A[k,])/log(specnumber(A[k,]))
+    }
   }
   Out[,21] <- eve
   #calculate abundance and shannon
@@ -186,9 +190,13 @@ FDindexes <- function(S, A, w = NA, Distance.method = "gower", ord= c("podani", 
   #Total biomass
   Out[,24] <- rowSums(AA)
   #Eveness_bm
-  eve_bm <- rep(NA,nrow(A))
+  eve_bm <- rep(NA,nrow(AA))
   for (k in 1:nrow(AA)){
+    if(specnumber(AA[k,]) == 1){
+      eve[k] <- "NA"
+    }else{
     eve_bm[k] <- diversity(AA[k,])/log(specnumber(AA[k,]))
+    }
   }
   Out[,25] <- eve_bm
   #Shannon_bm

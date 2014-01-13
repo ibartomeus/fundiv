@@ -19,7 +19,7 @@
   is from "Bees" or "Carabids"}
 }
 \value{
-  A vector of bee body masses is returned in gr for bees
+  A vector of bee body masses is returned in (gr) for bees
   and (mg) for Carabids.
 }
 \description{

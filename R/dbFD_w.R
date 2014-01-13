@@ -1,24 +1,29 @@
 #' Distance-Based Functional Diversity Indices from FD package with the option to weith by biomass
 #' 
 #' dbFD implements a flexible distance-based framework to compute multidimensional functional diversity (FD) indices. dbFD returns the three FD indices of Villéger et al. (2008): functional richness (FRic), functional evenness (FEve), and functional divergence (FDiv), as well functional dispersion (FDis; Laliberté and Legendre 2010), Rao's quadratic entropy (Q) (Botta-Dukát 2005), a posteriori functional group richness (FGR) (Petchey and Gaston 2006), and the community-level weighted means of trait values (CWM; e.g. Lavorel et al. 2008). Some of these FD indices consider species abundances. dbFD includes several options for flexibility.
-#' dbFD_w also allows to weight FDis by biomass
+#' dbFD_w also allows to weight all metrics by biomass
 #' 
 #' @param same as dbFD\code{}
 #' @param Weigthedby character string indicating if should be weighted by `abundance`
-#' or `biomassValue`. If biomassValue is in length units for Carabids or bees, 
-#' use options `biomasCarabids` or `biomasBees`.\code{}
-#'  @param  biomassValue numerical vector with body weigh (or length) values for each species
-#'  in the same order as species are provided.  \code{}
+#' or `biomassValue`. When biomassValue is in "length" units for Carabids or Bees, 
+#' use options `bi09:43:19omasCarabids` or `biomasBees` to automatically convert it to mass.\code{}
+#' @param  biomassValue numerical vector with body weigh (or length) values for each species
+#' in the same order as species are provided.  \code{}
 #'
 #' @return same as dbFD\code{}
 #' @return FDis vector listing the FDis of each community weighted by abundance or biomass
-#'
+#' @return RaoQ vector listing the RaoQ of each community weighted by abundance or biomass
+#' @return FEve vector listing the FEve of each community weighted by abundance or biomass
+#' @return FDiv vector listing the FDiv of each community weighted by abundance or biomass
+#
 #' @export
 #' 
 #' @examples 
+#' library(FD)
 #' ex1 <- dbFD_w(x = dummy$trait, a = dummy$abun, Weigthedby = "biomassValue", 
 #' biomassValue = c(1.2, 2.3, 0.6, 1.0, 3.4, 0.2, 1.6, 2.2))
 #' ex1
+
 
 dbFD_w <- function (x, a, w, w.abun = TRUE, stand.x = TRUE, 
                     ord = c("podani","metric"), asym.bin = NULL, 

@@ -19,9 +19,10 @@
   \item{same}{as dbFD\code{}}
 
   \item{Weigthedby}{character string indicating if should
-  be weighted by `abundance` or `biomassValue`. If
-  biomassValue is in length units for Carabids or bees, use
-  options `biomasCarabids` or `biomasBees`.\code{}}
+  be weighted by `abundance` or `biomassValue`. When
+  biomassValue is in "length" units for Carabids or Bees,
+  use options `bi09:43:19omasCarabids` or `biomasBees` to
+  automatically convert it to mass.\code{}}
 
   \item{biomassValue}{numerical vector with body weigh (or
   length) values for each species in the same order as
@@ -31,6 +32,15 @@
   same as dbFD\code{}
 
   FDis vector listing the FDis of each community weighted
+  by abundance or biomass
+
+  RaoQ vector listing the RaoQ of each community weighted
+  by abundance or biomass
+
+  FEve vector listing the FEve of each community weighted
+  by abundance or biomass
+
+  FDiv vector listing the FDiv of each community weighted
   by abundance or biomass
 }
 \description{
@@ -46,10 +56,11 @@
   trait values (CWM; e.g. Lavorel et al. 2008). Some of
   these FD indices consider species abundances. dbFD
   includes several options for flexibility. dbFD_w also
-  allows to weight FDis by biomass
+  allows to weight all metrics by biomass
 }
 \examples{
-ex1 <- dbFD_w(dummy$trait, dummy$abun, Weigthedby = "biomassValue",
+library(FD)
+ex1 <- dbFD_w(x = dummy$trait, a = dummy$abun, Weigthedby = "biomassValue",
 biomassValue = c(1.2, 2.3, 0.6, 1.0, 3.4, 0.2, 1.6, 2.2))
 ex1
 }

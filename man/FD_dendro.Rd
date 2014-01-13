@@ -15,10 +15,10 @@
   tolerated.\code{}}
 
   \item{A}{matrix containing the abundances of the species
-  in x (or presence-absence, i.e. 0 or 1). Rows are sites
+  in S (or presence-absence, i.e. 0 or 1). Rows are sites
   and species are columns. NA not tolerated. The number of
-  species (columns) in a must match the number of species
-  (rows) in x. In addition, the species labels in a and x
+  species (columns) in A must match the number of species
+  (rows) in S. In addition, the species labels in A and S
   must be identical and in the same order.\code{}}
 
   \item{w}{vector listing the weights for the traits in x.
@@ -31,8 +31,7 @@
   \item{ord}{character string specifying the method to be
   used for ordinal traits (i.e. ordered). "podani" refers
   to Eqs. 2a-b of Podani (1999), while "metric" refers to
-  his Eq. 3. Can be abbreviated. See gowdis for more
-  details.\code{}}
+  his Eq. 3. See gowdis for more details.\code{}}
 
   \item{Cluster.method}{Distance method used to produce the
   tree. UPGMA="average" is usually giving th ebest results
@@ -51,7 +50,8 @@
   \item{Weigthedby}{character string indicating if should
   be weighted by `abundance` or `biomassValue`. If
   biomassValue is in length units for Carabids or bees, use
-  options `biomasCarabids` or `biomasBees`.\code{}}
+  options `biomasCarabids` or `biomasBees` to autmatically
+  convert to mass.\code{}}
 
   \item{biomassValue}{numerical vector with body weigh (or
   length) values for each species in the same order as
@@ -84,7 +84,7 @@
   weighted version used in Gagig et al. In prep.
 }
 \examples{
-ex1 <- FD_dendro(dummy$trait, dummy$abun, Cluster.method = "average", ord = "podani"
+ex1 <- FD_dendro(S = dummy$trait, A = dummy$abun, Cluster.method = "average", ord = "podani",
                     Weigthedby = "abundance")
 ex1
 }
