@@ -40,7 +40,9 @@
 #' @param Weigthedby character string indicating weighted by biomass should be done 
 #' on `biomassValue` or corrected first for Carabids or bees. \code{}
 #' @param  biomassValue numerical vector with body weigh (or length) values for each species
-#' in the same order as species are provided. Default is 1, implying no weightening  \code{}
+#' in the same order as species are provided. It can also be a matrix or data 
+#' frame with one mass value for each community and species (both communities and species 
+#' arranged like in A). Default is 1, implying no weightening  \code{}
 #' 
 #'
 #' @return comm vector with the name of the community
@@ -185,7 +187,12 @@ FDindexes <- function(S, A, w = NA, Distance.method = "gower", ord= c("podani", 
     biomassValue2 <- biomassValue 
   }
   AA <- A
-  for(i in 1:ncol(A)) AA[,i] <- A[,i]*biomassValue2[i]
+  #if biomassValue2 is a marix (with a different value for each community /species)
+  if(is.vector(biomassValue2)){
+      for(j in 1:ncol(A)) AA[,j] <- A[,j]*biomassValue2[j]
+  }else{
+      AA <- AA * biomassValue2
+  }
   #eveness and Shannon of total biomass
   #Total biomass
   Out[,24] <- rowSums(AA)

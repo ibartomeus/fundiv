@@ -8,7 +8,9 @@
 #' or `biomassValue`. If biomassValue is in length units for Carabids or bees, 
 #' use options `biomasCarabids` or `biomasBees` to automatically convert it to mass.\code{}
 #' @param  biomassValue numerical vector with body weigh (or length) values for each species
-#' in the same order as species are provided.  \code{}
+#' in the same order as species are provided. It can also be a matrix or data 
+#' frame with one mass value for each community and species (both communities and species 
+#' arranged like in a). \code{}
 #'
 #' @return a data frame containing the CWM values (weighted by abundance or by biomass) of each trait for each community.\code{}
 #'
@@ -71,7 +73,12 @@ functcomp_bm <- function (x, a, CWM.type = c("dom", "all"), bin.num = NULL,
       biomassValue2 <- biomassValue 
     }
     #now multiply abundances (a) for biomass
-    for(i in 1:ncol(a)) a[,i] <- a[,i]*biomassValue2[i]
+    #if biomassValue2 is a marix (with a different value for each community /species)
+    if(is.vector(biomassValue2)){
+        for(i in 1:ncol(a)) a[,i] <- a[,i]*biomassValue2[i]
+    }else{
+        a <- a * biomassValue2
+    }
   }
   ##stop messing up things
   sum.a <- apply(a, 1, sum)

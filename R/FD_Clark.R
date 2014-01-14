@@ -27,7 +27,9 @@
 #' or `biomassValue`. If biomassValue is in length units for Carabids or bees, 
 #' use options `biomasCarabids` or `biomasBees`.\code{}
 #' @param  biomassValue numerical vector with body weigh (or length) values for each species
-#' in the same order as species are provided.  \code{}
+#' in the same order as species are provided. It can also be a matrix or data 
+#' frame with one mass value for each community and species (both communities and species 
+#' arranged like in A). \code{}
 #'
 #' @return comm vector with the name of the community
 #' @return n_sp vector listing the number of species for each community
@@ -89,6 +91,7 @@ FD_Clark <- function(S, A, w = NA, Distance.method = "gower", ord= c("podani", "
   c_distance <- cophenetic(tree)
   Out[, 4] <- rep(cor(D , c_distance), nrow(Out))
   #if Weigthedby is not abundance, transform weight to biomass
+  AA <- A
   if(Weigthedby != "abundance"){
     if(Weigthedby == "biomasCarabids"){
       biomassValue2 <- Jelaska(biomassValue)
@@ -98,10 +101,13 @@ FD_Clark <- function(S, A, w = NA, Distance.method = "gower", ord= c("podani", "
     }else{
       biomassValue2 <- biomassValue 
     }
-    AA <- A
-    for(i in 1:ncol(A)) AA[,i] <- A[,i]*biomassValue2[i]
-  }else
-    AA <- A
+    #if biomassValue2 is a marix (with a different value for each community /species)
+    if(is.vector(biomassValue2)){
+        for(j in 1:ncol(A)) AA[,j] <- A[,j]*biomassValue2[j]
+    }else{
+        AA <- AA * biomassValue2
+    }
+    }
   #create an AFw matrix of relative abundances (/by max)
   AFw <- AA
   for(k in 1:nrow(AA)){

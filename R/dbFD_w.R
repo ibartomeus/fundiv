@@ -8,7 +8,9 @@
 #' or `biomassValue`. When biomassValue is in "length" units for Carabids or Bees, 
 #' use options `bi09:43:19omasCarabids` or `biomasBees` to automatically convert it to mass.\code{}
 #' @param  biomassValue numerical vector with body weigh (or length) values for each species
-#' in the same order as species are provided.  \code{}
+#' in the same order as species are provided. It can also be a matrix or data 
+#' frame with one mass value for each community and species (both communities and species 
+#' arranged like in a. \code{}
 #'
 #' @return same as dbFD\code{}
 #' @return FDis vector listing the FDis of each community weighted by abundance or biomass
@@ -616,7 +618,12 @@ dbFD_w <- function (x, a, w, w.abun = TRUE, stand.x = TRUE,
       biomassValue2 <- biomassValue 
     }
     AA <- a
-    for(i in 1:ncol(a)) AA[,i] <- a[,i]*biomassValue2[i]
+    #if biomassValue2 is a marix (with a different value for each community /species)
+    if(is.vector(biomassValue2)){
+        for(i in 1:ncol(a)) AA[,i] <- a[,i]*biomassValue2[i]
+    }else{
+        AA <- AA * biomassValue2
+    }
     RaoQ <- divc(data.frame(t(AA)), x.dist, scale = scale.RaoQ)    
   }else{    
   RaoQ <- divc(data.frame(t(a)), x.dist, scale = scale.RaoQ) #original line
