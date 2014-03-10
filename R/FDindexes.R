@@ -169,7 +169,7 @@ FDindexes <- function(S, A, w = NA, Distance.method = "gower", ord= c("podani", 
   eve <- rep(NA,nrow(A))
   for (k in 1:nrow(A)){
     if(specnumber(A[k,]) == 1){
-      eve[k] <- "NA"
+      eve[k] <- NA
     }else{
     eve[k] <- diversity(A[k,])/log(specnumber(A[k,]))
     }
@@ -200,7 +200,7 @@ FDindexes <- function(S, A, w = NA, Distance.method = "gower", ord= c("podani", 
   eve_bm <- rep(NA,nrow(AA))
   for (k in 1:nrow(AA)){
     if(specnumber(AA[k,]) == 1){
-      eve[k] <- "NA"
+      eve[k] <- NA
     }else{
     eve_bm[k] <- diversity(AA[k,])/log(specnumber(AA[k,]))
     }
