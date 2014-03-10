@@ -11,7 +11,7 @@
 #' @param it number of iterations
 #' @param w vector listing the weights for the traits in x. Can be missing, 
 #' in which case all traits have equal weights.
-#' 
+#'
 #' @return comm vector listing the evaluated communities
 #' @return Rich vector with the observed species richness
 #' @return FD  vector with the observed FD index
@@ -55,14 +55,16 @@ null.FD <- function(S, A, it, w = NA){
     A2 <- rbind(A2, null_com)
   } #end r loop
   #Calculate FD in all communities
-  fun <- FDi(S = S, A = A2, Distance.method= "gower", ord = "podani",
-             w = w, stand.FRic = TRUE, stand.FD = TRUE, corr = "cailliez" )
+  fun <- FDindexes(S = S, A = A2, Distance.method= "gower", ord = "podani",
+            Cluster.method= "average", stand.FRic = TRUE, stand.FD = TRUE, 
+             Weigthedby = "abundance", corr = "cailliez" )
   #calculate the p-value for FD
+  #that should be optimized by adding the length a priori
   pFD <- c()
   null_meanFD <- c()
   null_sdFD <- c()
   for(k in 1:nrow(A)){
-    null_meanFD[k] <-  mean(fun[tail(which(fun$n_sp == fun$n_sp[k]),it),4])
+    null_meanFD[k] <-  mean(fun[tail(which(fun$n_sp == fun$n_sp[k]),it),4]) #4 is FDpg
     null_sdFD[k] <-  sd(fun[tail(which(fun$n_sp == fun$n_sp[k]),it),4])
     pFD[k] <- pnorm(fun[k,4], mean = mean(fun[tail(which(fun$n_sp == fun$n_sp[k]),it),4]), 
                     sd = sd(fun[tail(which(fun$n_sp == fun$n_sp[k]),it),4]))
@@ -72,13 +74,13 @@ null.FD <- function(S, A, it, w = NA){
   null_meanFrich <- c()
   null_sdFrich <- c()
   for(k in 1:nrow(A)){
-    null_meanFrich[k] <-  mean(fun[tail(which(fun$n_sp == fun$n_sp[k]),it),9])
-    null_sdFrich[k] <-  sd(fun[tail(which(fun$n_sp == fun$n_sp[k]),it),9])
-    pFrich[k] <- pnorm(fun[k,8], mean = mean(fun[tail(which(fun$n_sp == fun$n_sp[k]),it),9]), 
-                       sd = sd(fun[tail(which(fun$n_sp == fun$n_sp[k]),it),9]))
+    null_meanFrich[k] <-  mean(fun[tail(which(fun$n_sp == fun$n_sp[k]),it),12])
+    null_sdFrich[k] <-  sd(fun[tail(which(fun$n_sp == fun$n_sp[k]),it),12])
+    pFrich[k] <- pnorm(fun[k,12], mean = mean(fun[tail(which(fun$n_sp == fun$n_sp[k]),it),12]), 
+                       sd = sd(fun[tail(which(fun$n_sp == fun$n_sp[k]),it),12]))
   } # end k loop
   #output in table format
-  out <- data.frame(comm = fun$comm[1:nrow(A)], Rich = fun$n_sp[1:nrow(A)] ,FD = fun$FD_PG[1:nrow(A)], 
+  out <- data.frame(comm = fun$comm[1:nrow(A)], Rich = fun$n_sp[1:nrow(A)] ,FD = fun$FDpg[1:nrow(A)], 
                     null_meanFD = null_meanFD, null_sdFD = null_sdFD, pFD = round(pFD,4), 
                     Frich = fun$Frich[1:nrow(A)], null_meanFrich = null_meanFrich,
                     null_sdFrich = null_sdFrich, pFrich = round(pFrich,4))  
