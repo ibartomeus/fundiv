@@ -69,6 +69,10 @@ FD_dendro <- function(S, A, w = NA, Distance.method = "gower", ord= c("podani", 
                     )
   Out$comm <- rownames(A)
   Out$n_tr <- ncol(S)
+  #richness
+  Arich <- A
+  Arich[which(Arich > 0)]  <- 1
+  Out$n_sp <- rowSums(Arich, na.rm = TRUE) 
   if(is.na(w)[1]){w <- rep(1,ncol(S))}
   #Obtain the distance matrix
   if(Distance.method == "gower"){
@@ -127,9 +131,6 @@ FD_dendro <- function(S, A, w = NA, Distance.method = "gower", ord= c("podani", 
       i.primeC <- select_xtree
     }
     Out[i,4] <- sum(i.primeC*xtree$h2.prime)
-    #Species richness
-    Out[i,2] <- length(A[i,-which(A[i,] == 0)])
-    
     ##calculate Fw
     #Substitute all branches where a given species is present (=1) by its weigth 
     xtree.weigths <- xtree$H1
