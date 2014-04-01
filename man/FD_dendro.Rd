@@ -2,12 +2,12 @@
 \alias{FD_dendro}
 \title{Dendrogram-Based Functional Diversity Indices}
 \usage{
-  FD_dendro(S, A, w = NA, Distance.method = "gower",
-    ord = c("podani", "metric"),
-    Cluster.method = c(ward = "ward", single = "single", complete = "complete", UPGMA = "average", UPGMC = "centroid", WPGMC = "median", WPGMA = "mcquitty"),
-    stand.x = TRUE, stand.FD = FALSE,
-    Weigthedby = c("abundance", "biomasCarabids", "biomasBees", "biomassValue"),
-    biomassValue = NA)
+FD_dendro(S, A, w = NA, Distance.method = "gower", ord = c("podani",
+  "metric"), Cluster.method = c(ward = "ward", single = "single", complete =
+  "complete", UPGMA = "average", UPGMC = "centroid", WPGMC = "median", WPGMA =
+  "mcquitty"), stand.x = TRUE, stand.FD = FALSE,
+  Weigthedby = c("abundance", "biomasCarabids", "biomasBees", "biomassValue"),
+  biomassValue = NA)
 }
 \arguments{
   \item{S}{matrix or data frame of functional traits.
@@ -55,33 +55,36 @@
 
   \item{biomassValue}{numerical vector with body weigh (or
   length) values for each species in the same order as
-  species are provided.  \code{}}
+  species are provided. It can also be a matrix or data
+  frame with one mass value for each community and species
+  (both communities and species arranged like in A).
+  \code{}}
 }
 \value{
-  comm vector with the name of the community
+comm vector with the name of the community
 
-  n_sp vector listing the number of species for each
-  community
+n_sp vector listing the number of species for each
+community
 
-  n_tr vector listing the number of traits used
+n_tr vector listing the number of traits used
 
-  FDpg vector listing FDpg (petchey and gaston) for each
-  community
+FDpg vector listing FDpg (petchey and gaston) for each
+community
 
-  FDw vector listing FD weighthed by species relative
-  abundances/biomass in each community
+FDw vector listing FD weighthed by species relative
+abundances/biomass in each community
 
-  FDwcomm vector listing FD weighthed by species
-  abundances/biomass across all communities
+FDwcomm vector listing FD weighthed by species
+abundances/biomass across all communities
 
-  qual.FD vector repeating the quality of the dendogram
-  representation. clustering performance is assessed by the
-  correlation with the cophenetic distance
+qual.FD vector repeating the quality of the dendogram
+representation. clustering performance is assessed by the
+correlation with the cophenetic distance
 }
 \description{
-  Calculate functional trait diversity for a set of
-  communities using Ptchey and Gaston 2002 index and its
-  weighted version used in Gagig et al. In prep.
+Calculate functional trait diversity for a set of
+communities using Ptchey and Gaston 2002 index and its
+weighted version used in Gagig et al. In prep.
 }
 \examples{
 ex1 <- FD_dendro(S = dummy$trait, A = dummy$abun, Cluster.method = "average", ord = "podani",

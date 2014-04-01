@@ -11,15 +11,3 @@ Depends:
 Description: The package gather several metrics of functional trait diversity
     already developed and adds a few more
 License: GPL (>= 2)
-Collate:
-    'FD_Clark.R'
-    'FD_dendro.R'
-    'FDindexes.R'
-    'Fredundancy.R'
-    'Xtree.R'
-    'dbFD_w.R'
-    'fdisp_w.R'
-    'functcomp_bm.R'
-    'null.FD.R'
-    'length_to_mass.R'
-    'fundiv-package.R'

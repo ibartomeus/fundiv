@@ -2,9 +2,8 @@
 \alias{fdisp_w}
 \title{Functional Dispersion from FD package with the option to weith by biomass}
 \usage{
-  fdisp_w(d, a, tol = 1e-07,
-    Weigthedby = c("abundance", "biomasCarabids", "biomasBees", "biomassValue"),
-    biomassValue = NA)
+fdisp_w(d, a, tol = 1e-07, Weigthedby = c("abundance", "biomasCarabids",
+  "biomasBees", "biomassValue"), biomassValue = NA)
 }
 \arguments{
   \item{same}{as dbFD\code{}}
@@ -17,18 +16,21 @@
 
   \item{biomassValue}{numerical vector with body weigh (or
   length) values for each species in the same order as
-  species are provided.  \code{}}
+  species are provided. It can also be a matrix or data
+  frame with one mass value for each community and species
+  (both communities and species arranged like in a).
+  \code{}}
 }
 \value{
-  same as dbFD\code{}
+same as dbFD\code{}
 
-  FDis vector listing the FDis of each community weighted
-  by abundance or biomass
+FDis vector listing the FDis of each community weighted by
+abundance or biomass
 }
 \description{
-  fdisp measures the functional dispersion (FDis) of a set
-  of communities, as described by Laliberté and Legendre
-  (2010). fdisp_w also allows to weight FDis by biomass
+fdisp measures the functional dispersion (FDis) of a set of
+communities, as described by Laliberté and Legendre (2010).
+fdisp_w also allows to weight FDis by biomass
 }
 \examples{
 dummy.dist <- gowdis(dummy$trait)

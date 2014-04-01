@@ -2,7 +2,7 @@
 \alias{null.FD}
 \title{Calculate Null Model of FD values obtained under random species richness for a given community}
 \usage{
-  null.FD(S, A, it, w = NA)
+null.FD(S, A, it, w = NA)
 }
 \arguments{
   \item{S}{matrix or data frame of functional traits.
@@ -23,31 +23,31 @@
   weights.}
 }
 \value{
-  comm vector listing the evaluated communities
+comm vector listing the evaluated communities
 
-  Rich vector with the observed species richness
+Rich vector with the observed species richness
 
-  FD vector with the observed FD index
+FD vector with the observed FD index
 
-  null_meanFD vector with the expected mean FD value for
-  that richness level under random conditions
+null_meanFD vector with the expected mean FD value for that
+richness level under random conditions
 
-  null_sdFD vector with the S.E. of the FD value for that
-  richness level under random conditions
+null_sdFD vector with the S.E. of the FD value for that
+richness level under random conditions
 
-  pFD p-value comparing FD and its expected null
+pFD p-value comparing FD and its expected null
 
-  Frich vector with the observed FD index
+Frich vector with the observed FD index
 
-  null_meanFrich vector with the expected mean FD value for
-  that richness level under random conditions
+null_meanFrich vector with the expected mean FD value for
+that richness level under random conditions
 
-  null_sdFrich vector with the S.E. of the FD value for
-  that richness level under random conditions
+null_sdFrich vector with the S.E. of the FD value for that
+richness level under random conditions
 
-  pFrich p-value comparing FD and its expected null
+pFrich p-value comparing FD and its expected null
 }
 \description{
-  work in progress to calculate FR ...
+work in progress to calculate FR ...
 }
 

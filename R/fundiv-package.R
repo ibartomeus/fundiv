@@ -15,4 +15,4 @@
 #' @author  Ignasi Bartomeus \email{nacho.bartomeus@@gmail.com} 
 #' @keywords package
 #' @examples #see functions.
-NA
+NULL

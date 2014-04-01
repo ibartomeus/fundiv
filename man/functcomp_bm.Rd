@@ -2,10 +2,9 @@
 \alias{functcomp_bm}
 \title{Functional Composition from FD package with the option to weith by biomass}
 \usage{
-  functcomp_bm(x, a, CWM.type = c("dom", "all"),
-    bin.num = NULL,
-    Weigthedby = c("abundance", "biomasCarabids", "biomasBees", "biomassValue"),
-    biomassValue = NA)
+functcomp_bm(x, a, CWM.type = c("dom", "all"), bin.num = NULL,
+  Weigthedby = c("abundance", "biomasCarabids", "biomasBees", "biomassValue"),
+  biomassValue = NA)
 }
 \arguments{
   \item{same}{as functcomp\code{}}
@@ -18,18 +17,21 @@
 
   \item{biomassValue}{numerical vector with body weigh (or
   length) values for each species in the same order as
-  species are provided.  \code{}}
+  species are provided. It can also be a matrix or data
+  frame with one mass value for each community and species
+  (both communities and species arranged like in a).
+  \code{}}
 }
 \value{
-  a data frame containing the CWM values (weighted by
-  abundance or by biomass) of each trait for each
-  community.\code{}
+a data frame containing the CWM values (weighted by
+abundance or by biomass) of each trait for each
+community.\code{}
 }
 \description{
-  functcomp returns the functional composition of a set of
-  communities, as measured by the community-level weighted
-  means of trait values (CWM; e.g. Lavorel et al. 2008).
-  functcomp_w also allows to weight CWM by biomass
+functcomp returns the functional composition of a set of
+communities, as measured by the community-level weighted
+means of trait values (CWM; e.g. Lavorel et al. 2008).
+functcomp_w also allows to weight CWM by biomass
 }
 \examples{
 ex1 <- functcomp_bm(dummy$trait, dummy$abun, Weigthedby = "biomassValue",

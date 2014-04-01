@@ -4,12 +4,12 @@
 Calculate functional trait diversity for a set of communities using Petchey and Gaston 2002 index
 weighted version used in Clarck et al 2012}
 \usage{
-  FD_Clark(S, A, w = NA, Distance.method = "gower",
-    ord = c("podani", "metric"),
-    Cluster.method = c(ward = "ward", single = "single", complete = "complete", UPGMA = "average", UPGMC = "centroid", WPGMC = "median", WPGMA = "mcquitty"),
-    stand.x = TRUE, stand.FD = FALSE,
-    Weigthedby = c("abundance", "biomasCarabids", "biomasBees", "biomassValue"),
-    biomassValue = NA)
+FD_Clark(S, A, w = NA, Distance.method = "gower", ord = c("podani",
+  "metric"), Cluster.method = c(ward = "ward", single = "single", complete =
+  "complete", UPGMA = "average", UPGMC = "centroid", WPGMC = "median", WPGMA =
+  "mcquitty"), stand.x = TRUE, stand.FD = FALSE,
+  Weigthedby = c("abundance", "biomasCarabids", "biomasBees", "biomassValue"),
+  biomassValue = NA)
 }
 \arguments{
   \item{S}{matrix or data frame of functional traits.
@@ -56,36 +56,38 @@ weighted version used in Clarck et al 2012}
 
   \item{biomassValue}{numerical vector with body weigh (or
   length) values for each species in the same order as
-  species are provided.  \code{}}
+  species are provided. It can also be a matrix or data
+  frame with one mass value for each community and species
+  (both communities and species arranged like in A).
+  \code{}}
 }
 \value{
-  comm vector with the name of the community
+comm vector with the name of the community
 
-  n_sp vector listing the number of species for each
-  community
+n_sp vector listing the number of species for each
+community
 
-  n_tr vector listing the number of traits used
+n_tr vector listing the number of traits used
 
-  qual.FD vector repeating the quality of the dendogram
-  representation. clustering performance is assessed by the
-  correlation with the cophenetic distance
+qual.FD vector repeating the quality of the dendogram
+representation. clustering performance is assessed by the
+correlation with the cophenetic distance
 
-  FDabund See Clark description.
+FDabund See Clark description.
 
-  FDjointabund See Clark description.
+FDjointabund See Clark description.
 }
 \description{
-  Dendrogram-Based Functional Diversity weighted Indices
-  used in Clarck et al 2012 (plos One) Calculate functional
-  trait diversity for a set of communities using Petchey
-  and Gaston 2002 index weighted version used in Clarck et
-  al 2012
+Dendrogram-Based Functional Diversity weighted Indices used
+in Clarck et al 2012 (plos One) Calculate functional trait
+diversity for a set of communities using Petchey and Gaston
+2002 index weighted version used in Clarck et al 2012
 }
 \note{
-  This indexes are highly correlated with FDw and FDwcomm,
-  but 1) the use of recalculated dendograms for each
-  community is not advised 2) can not be applied to
-  categorical traits (ignored in this function)
+This indexes are highly correlated with FDw and FDwcomm,
+but 1) the use of recalculated dendograms for each
+community is not advised 2) can not be applied to
+categorical traits (ignored in this function)
 }
 \examples{
 ex1 <- FD_Clark(S = dummy$trait, A = dummy$abun, Cluster.method = "average", ord = "podani",

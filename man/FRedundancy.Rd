@@ -2,7 +2,7 @@
 \alias{FRedundancy}
 \title{Calculate Functional Reduncancy}
 \usage{
-  FRedundancy(S, A, it = 10)
+FRedundancy(S, A, it = 10)
 }
 \arguments{
   \item{S}{matrix or data frame of functional traits.
@@ -19,15 +19,15 @@
   \item{it}{number of iterations}
 }
 \value{
-  site vector of sites
+site vector of sites
 
-  rob_Fpg vector of robustness (indicates reduncancy) using
-  petchey and Gaston index
+rob_Fpg vector of robustness (indicates reduncancy) using
+petchey and Gaston index
 
-  rob_FRich vector of robustness using distance-Based
-  indexes (index) Laliberte
+rob_FRich vector of robustness using distance-Based indexes
+(index) Laliberte
 }
 \description{
-  work in progress to calculate FR ...
+work in progress to calculate FR ...
 }
 

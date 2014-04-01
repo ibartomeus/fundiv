@@ -51,15 +51,18 @@ Eve <- function(A, scales = c(1)){
   out
 }
   
-
+#' @export
+#' 
 Ea0  <- function(A, scales = c(1)){ 
   require(vegan)
   exp(renyi(A, scales = scales, hill = FALSE)) / 
     exp(renyi(A, scales = c(0), hill = FALSE))
   }
-  
+
+#' @export
 EinvD <- function(A) diversity(A, "invsimpson")/specnumber(A)
 
+#' @export
 EJ <- function(A){
   eve <- rep(NA,nrow(A))
   for (k in 1:nrow(A)){
@@ -72,7 +75,8 @@ EJ <- function(A){
   eve  
 }
 
-
+#' @export
+#' 
 Evar <- function(A){
   v <- rep(NA, nrow(A)) 
   for(k in 1:nrow(A)) {

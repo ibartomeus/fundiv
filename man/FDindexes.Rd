@@ -2,15 +2,13 @@
 \alias{FDindexes}
 \title{Wrapper to Space and Dendrogram Based Functional Diversity Indices}
 \usage{
-  FDindexes(S, A, w = NA, Distance.method = "gower",
-    ord = c("podani", "metric"),
-    Cluster.method = c(ward = "ward", single = "single", complete = "complete", UPGMA = "average", UPGMC = "centroid", WPGMC = "median", WPGMA = "mcquitty"),
-    stand.x = TRUE,
-    corr = c("sqrt", "cailliez", "lingoes", "none"),
-    stand.FRic = FALSE, m = "max", stand.FD = FALSE,
-    scale.RaoQ = FALSE,
-    Weigthedby = c("biomasCarabids", "biomasBees", "biomassValue"),
-    biomassValue = rep(1, nrow(S)))
+FDindexes(S, A, w = NA, Distance.method = "gower", ord = c("podani",
+  "metric"), Cluster.method = c(ward = "ward", single = "single", complete =
+  "complete", UPGMA = "average", UPGMC = "centroid", WPGMC = "median", WPGMA =
+  "mcquitty"), calc.FRic = TRUE, stand.x = TRUE, corr = c("sqrt",
+  "cailliez", "lingoes", "none"), stand.FRic = FALSE, m = "max",
+  stand.FD = FALSE, scale.RaoQ = FALSE, Weigthedby = c("biomasCarabids",
+  "biomasBees", "biomassValue"), biomassValue = rep(1, nrow(S)))
 }
 \arguments{
   \item{S}{matrix or data frame of functional traits.
@@ -80,89 +78,89 @@
 
   \item{biomassValue}{numerical vector with body weigh (or
   length) values for each species in the same order as
-  species are provided. Default is 1, implying no
-  weightening \code{}}
+  species are provided. It can also be a matrix or data
+  frame with one mass value for each community and species
+  (both communities and species arranged like in A).
+  Default is 1, implying no weightening \code{}}
 }
 \value{
-  comm vector with the name of the community
+comm vector with the name of the community
 
-  n_sp vector listing the number of species for each
-  community
+n_sp vector listing the number of species for each
+community
 
-  n_tr vector listing the number of traits used
+n_tr vector listing the number of traits used
 
-  FDpg vector listing FDpg (petchey and gaston) for each
-  community
+FDpg vector listing FDpg (petchey and gaston) for each
+community
 
-  FDw vector listing FD weighthed by species relative
-  abundances in each community
+FDw vector listing FD weighthed by species relative
+abundances in each community
 
-  FDwcomm vector listing FD weighthed by species abundances
-  across all communities
+FDwcomm vector listing FD weighthed by species abundances
+across all communities
 
-  qual.FD vector repeating the quality of the dendogram
-  representation. clustering performance is assessed by the
-  correlation with the cophenetic distance
+qual.FD vector repeating the quality of the dendogram
+representation. clustering performance is assessed by the
+correlation with the cophenetic distance
 
-  FDw_bm FDw vector listing FD weighthed by species
-  relative biomass in each community
+FDw_bm FDw vector listing FD weighthed by species relative
+biomass in each community
 
-  FDwcomm_bm vector listing FD weighthed by species biomass
-  across all communities
+FDwcomm_bm vector listing FD weighthed by species biomass
+across all communities
 
-  sing.sp vector listing the number of functionally
-  singular species in each community. If all species are
-  functionally different, sing.sp will be identical to
-  nbsp.
+sing.sp vector listing the number of functionally singular
+species in each community. If all species are functionally
+different, sing.sp will be identical to nbsp.
 
-  qual.FRic quality of the reduced-space representation
-  required to compute FRic and FDiv.
+qual.FRic quality of the reduced-space representation
+required to compute FRic and FDiv.
 
-  Frich vector listing the FRic of each community
+Frich vector listing the FRic of each community
 
-  Fdis vector listing the Fdis of each community
+Fdis vector listing the Fdis of each community
 
-  Fdis_bm vector listing the Fdis weighted by biomass of
-  each community
+Fdis_bm vector listing the Fdis weighted by biomass of each
+community
 
-  Feve vector listing the Feve of each community
+Feve vector listing the Feve of each community
 
-  Feve_bm vector listing the Feve weighted by biomass of
-  each community
+Feve_bm vector listing the Feve weighted by biomass of each
+community
 
-  Fdiv vector listing the Fdiv of each community
+Fdiv vector listing the Fdiv of each community
 
-  Fdiv_bm vector listing the Fdiv weighted by biomass of
-  each community
+Fdiv_bm vector listing the Fdiv weighted by biomass of each
+community
 
-  RaoQ vector listing the RaoQ of each community
+RaoQ vector listing the RaoQ of each community
 
-  RaoQ_bm vector listing the RaoQ weighted by biomass of
-  each community
+RaoQ_bm vector listing the RaoQ weighted by biomass of each
+community
 
-  Seve vector listing the species eveness (pielous J') of
-  each community
+Seve vector listing the species eveness (pielous J') of
+each community
 
-  Shannon vector listing the diversitit Shannon index of
-  each community
+Shannon vector listing the diversitit Shannon index of each
+community
 
-  Abund vector listing the Total abundance of each
-  community
+Abund vector listing the Total abundance of each community
 
-  TotalBiomass vector listing the total biomass of each
-  community
+TotalBiomass vector listing the total biomass of each
+community
 
-  EvenessBiomass vector listing the eveness of biomass
-  distribution of each community
+EvenessBiomass vector listing the eveness of biomass
+distribution of each community
 
-  ShannonBiomass vector listing the Shannon of the
-  diversity weighted by biomass of each community. I am not
-  sure this one makes much sense.
+ShannonBiomass vector listing the Shannon of the diversity
+weighted by biomass of each community. I am not sure this
+one makes much sense.
 }
 \description{
-  Calculate functional trait diversity for a set of
-  communities using FD_dendro and dbFD and returns a single
-  dataframe
+Calculate functional trait diversity for a set of
+communities using FD_dendro and dbFD and returns a single
+dataframe
 }
 \examples{
 ex1 <- FDindexes(dummy$trait, A = dummy$abun, Distance.method= "gower", ord= "podani",
