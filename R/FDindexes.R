@@ -43,7 +43,6 @@
 #' in the same order as species are provided. It can also be a matrix or data 
 #' frame with one mass value for each community and species (both communities and species 
 #' arranged like in A). Default is 1, implying no weightening  \code{}
-#' 
 #'
 #' @return comm vector with the name of the community
 #' @return n_sp vector listing the number of species for each community
@@ -95,7 +94,7 @@ FDindexes <- function(S, A, w = NA, Distance.method = "gower", ord= c("podani", 
                 Cluster.method = c(ward="ward",single="single",complete="complete",
                                    UPGMA="average",UPGMC="centroid",WPGMC="median",
                                    WPGMA="mcquitty"),
-                stand.x = TRUE, corr = c("sqrt", "cailliez", "lingoes", "none"),
+                calc.FRic = TRUE, stand.x = TRUE, corr = c("sqrt", "cailliez", "lingoes", "none"),
                 stand.FRic = FALSE, m = "max", stand.FD = FALSE, scale.RaoQ = FALSE,
                 Weigthedby = c("biomasCarabids", "biomasBees", "biomassValue"),
                 biomassValue = rep(1,nrow(S))){
@@ -132,39 +131,40 @@ FDindexes <- function(S, A, w = NA, Distance.method = "gower", ord= c("podani", 
   Outdendro <- FD_dendro(S, A, w = w, Distance.method = Distance.method, ord= ord,
                          Cluster.method = Cluster.method, stand.x = stand.x, stand.FD = stand.FD,
                          Weigthedby = "abundance", biomassValue = NA) 
-  Out[,1] <- Outdendro$comm
-  Out[,2] <- Outdendro$n_sp
-  Out[,3] <- Outdendro$n_tr
-  Out[,4] <- Outdendro$FDpg
-  Out[,5] <- Outdendro$FDw
-  Out[,6] <- Outdendro$FDwcomm
-  Out[,7] <- Outdendro$qual.FD
+  Out[,"comm"] <- Outdendro$comm
+  Out[,"n_sp"] <- Outdendro$n_sp
+  Out[,"n_tr"] <- Outdendro$n_tr
+  Out[,"FDpg"] <- Outdendro$FDpg
+  Out[,"FDw"] <- Outdendro$FDw
+  Out[,"FDwcomm"] <- Outdendro$FDwcomm
+  Out[,"qual.FD"] <- Outdendro$qual.FD
   Outdendro_bm <- FD_dendro(S, A, w = w, Distance.method = Distance.method, ord= ord,
                          Cluster.method = Cluster.method, stand.x = stand.x, stand.FD = stand.FD,
                          Weigthedby = Weigthedby, biomassValue = biomassValue) 
-  Out[,8] <- Outdendro_bm$FDw
-  Out[,9] <- Outdendro_bm$FDwcomm
+  Out[,"FDw_bm"] <- Outdendro_bm$FDw
+  Out[,"FDwcomm_bm"] <- Outdendro_bm$FDwcomm
   
   #calculate FRichness according to Manson, villager, laliberte et al. using a tweaked version of FD package
   FD <- dbFD_w(S, A, calc.CWM = FALSE, corr = corr, stand.FRic = stand.FRic, 
-             ord = ord, m = m, stand.x = stand.x, scale.RaoQ = scale.RaoQ, 
-               Weigthedby = "abundance", 
-               biomassValue = NA)
-  Out[,10] <- FD$sing.sp
-  Out[,11] <- rep(FD$qual.FRic, nrow(A))
-  Out[,12] <- FD$FRic
-  Out[,13] <- FD$FDis
+               calc.FRic = calc.FRic, ord = ord, m = m, stand.x = stand.x, 
+               scale.RaoQ = scale.RaoQ, Weigthedby = "abundance", biomassValue = NA)
+  Out[,"sing.sp"] <- FD$sing.sp
+  if(calc.FRic == TRUE){
+      Out[,"qual.FRic"] <- rep(FD$qual.FRic, nrow(A))
+      Out[,"Frich"] <- FD$FRic
+  }
+  Out[,"Fdis"] <- FD$FDis
   FD_bm <- dbFD_w(S, A, calc.CWM = FALSE, corr = corr, stand.FRic = stand.FRic, 
                ord = ord, m = m, stand.x = stand.x, scale.RaoQ = scale.RaoQ, 
-               Weigthedby = Weigthedby, 
+               Weigthedby = Weigthedby, calc.FRic = calc.FRic,
                biomassValue = biomassValue)
-  Out[,14] <- FD_bm$FDis
-  Out[,15] <- FD$FEve
-  Out[,16] <- FD_bm$FEve
-  Out[,17] <- FD$FDiv
-  Out[,18] <- FD_bm$FDiv
-  Out[,19] <- FD$RaoQ
-  Out[,20] <- FD_bm$RaoQ
+  Out[,"Fdis_bm"] <- FD_bm$FDis
+  Out[,"Feve"] <- FD$FEve
+  Out[,"Feve_bm"] <- FD_bm$FEve
+  Out[,"Fdiv"] <- FD$FDiv
+  Out[,"Fdiv_bm"] <- FD_bm$FDiv
+  Out[,"RaoQ"] <- FD$RaoQ
+  Out[,"RaoQ_bm"] <- FD_bm$RaoQ
   #calculate species eveness Pielous
   eve <- rep(NA,nrow(A))
   for (k in 1:nrow(A)){
@@ -174,10 +174,10 @@ FDindexes <- function(S, A, w = NA, Distance.method = "gower", ord= c("podani", 
     eve[k] <- diversity(A[k,])/log(specnumber(A[k,]))
     }
   }
-  Out[,21] <- eve
+  Out[,"Seve"] <- eve
   #calculate abundance and shannon
-  Out[,22] <- diversity(A)
-  Out[,23] <- rowSums(A)
+  Out[,"Shannon"] <- diversity(A)
+  Out[,"Abund"] <- rowSums(A)
   if(Weigthedby == "biomasCarabids"){
     biomassValue2 <- Jelaska(biomassValue)
   }
@@ -195,7 +195,7 @@ FDindexes <- function(S, A, w = NA, Distance.method = "gower", ord= c("podani", 
   }
   #eveness and Shannon of total biomass
   #Total biomass
-  Out[,24] <- rowSums(AA)
+  Out[,"TotalBiomass"] <- rowSums(AA)
   #Eveness_bm
   eve_bm <- rep(NA,nrow(AA))
   for (k in 1:nrow(AA)){
@@ -205,8 +205,8 @@ FDindexes <- function(S, A, w = NA, Distance.method = "gower", ord= c("podani", 
     eve_bm[k] <- diversity(AA[k,])/log(specnumber(AA[k,]))
     }
   }
-  Out[,25] <- eve_bm
+  Out[,"EvenessBiomass"] <- eve_bm
   #Shannon_bm
-  Out[,26] <- diversity(AA)  
+  Out[,"ShannonBiomass"] <- diversity(AA)
   Out
 }
