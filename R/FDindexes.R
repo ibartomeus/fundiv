@@ -97,7 +97,8 @@ FDindexes <- function(S, A, w = NA, Distance.method = "gower", ord= c("podani", 
                 calc.FRic = TRUE, stand.x = TRUE, corr = c("sqrt", "cailliez", "lingoes", "none"),
                 stand.FRic = FALSE, m = "max", stand.FD = FALSE, scale.RaoQ = FALSE,
                 Weigthedby = c("biomasCarabids", "biomasBees", "biomassValue"),
-                biomassValue = rep(1,nrow(S))){
+                biomassValue = rep(1,nrow(S)),
+                op_qhull = "FA"){
   require(FD)
   require(cluster)
   require(vegan)
@@ -147,7 +148,8 @@ FDindexes <- function(S, A, w = NA, Distance.method = "gower", ord= c("podani", 
   #calculate FRichness according to Manson, villager, laliberte et al. using a tweaked version of FD package
   FD <- dbFD_w(S, A, calc.CWM = FALSE, corr = corr, stand.FRic = stand.FRic, 
                calc.FRic = calc.FRic, ord = ord, m = m, stand.x = stand.x, 
-               scale.RaoQ = scale.RaoQ, Weigthedby = "abundance", biomassValue = NA)
+               scale.RaoQ = scale.RaoQ, Weigthedby = "abundance", biomassValue = NA,
+               op_qhull = op_qhull)
   Out[,"sing.sp"] <- FD$sing.sp
   if(calc.FRic == TRUE){
       Out[,"qual.FRic"] <- rep(FD$qual.FRic, nrow(A))
@@ -157,7 +159,8 @@ FDindexes <- function(S, A, w = NA, Distance.method = "gower", ord= c("podani", 
   FD_bm <- dbFD_w(S, A, calc.CWM = FALSE, corr = corr, stand.FRic = stand.FRic, 
                ord = ord, m = m, stand.x = stand.x, scale.RaoQ = scale.RaoQ, 
                Weigthedby = Weigthedby, calc.FRic = calc.FRic,
-               biomassValue = biomassValue)
+               biomassValue = biomassValue,
+               op_qhull = op_qhull)
   Out[,"Fdis_bm"] <- FD_bm$FDis
   Out[,"Feve"] <- FD$FEve
   Out[,"Feve_bm"] <- FD_bm$FEve
