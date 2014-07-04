@@ -43,7 +43,10 @@
 #' in the same order as species are provided. It can also be a matrix or data 
 #' frame with one mass value for each community and species (both communities and species 
 #' arranged like in A). Default is 1, implying no weightening  \code{}
-#'
+#' @param op_qhull access the options for calculating the volume of the convex hull. 
+#' If a long scary warning appears mentioning qhull read convhulln{geometry} help page.
+#' default in FD is= "FA", but sometimes is needed to add stuff.
+
 #' @return comm vector with the name of the community
 #' @return n_sp vector listing the number of species for each community
 #' @return n_tr vector listing the number of traits used
