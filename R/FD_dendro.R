@@ -70,7 +70,7 @@ FD_dendro <- function(S, A, w = NA, Distance.method = "gower", ord= c("podani", 
   Out$comm <- rownames(A)
   Out$n_tr <- ncol(S)
   #richness
-  Arich <- A
+  Arich <- as.matrix(A)
   Arich[which(Arich > 0)]  <- 1
   Out$n_sp <- rowSums(Arich, na.rm = TRUE) 
   if(is.na(w)[1]){w <- rep(1,ncol(S))}
