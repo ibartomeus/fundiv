@@ -11,6 +11,9 @@
 #' in the same order as species are provided. It can also be a matrix or data 
 #' frame with one mass value for each community and species (both communities and species 
 #' arranged like in a. \code{}
+#' @param op_qhull access the options for calculating the volume of the convex hull. 
+#' If a long scary warning appears mentioning qhull read convhulln{geometry} help page.
+#' default in FD is= "FA", but sometimes is needed to add stuff.
 #'
 #' @return same as dbFD\code{}
 #' @return FDis vector listing the FDis of each community weighted by abundance or biomass
@@ -37,7 +40,7 @@ dbFD_w <- function (x, a, w, w.abun = TRUE, stand.x = TRUE,
                     CWM.type = c("dom", "all"), calc.FDiv = TRUE, dist.bin = 2, 
                     print.pco = FALSE, messages = TRUE, 
                     Weigthedby = c("abundance", "biomasCarabids", "biomasBees",
-                                   "biomassValue"), biomassValue = NA) {
+                                   "biomassValue"), biomassValue = NA, op_qhull = "FA") {
   tol <- .Machine$double.eps
   corr <- match.arg(corr)
   ord <- match.arg(ord)
@@ -497,7 +500,7 @@ dbFD_w <- function (x, a, w, w.abun = TRUE, stand.x = TRUE,
                   "\n")
         }
         if (stand.FRic) {
-          hull.all <- convhulln(traits.FRic, "FA")
+          hull.all <- convhulln(traits.FRic, options = op_qhull)
           FRic.all <- hull.all$vol
         }
       }
