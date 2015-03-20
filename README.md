@@ -1,9 +1,9 @@
 fundiv: analyzing functional trait diversity
 ========================================================
 
-This is a wrapper to Petchey and Gaston FD indexes and Laliberte FD package. Hence most code is borrowed from them. It has some additions, most notably the dendogram measures can also be weighted by abundance as implemented in Gagic, Bartomeus et al. (Submitted) paper. There is also a function to calculate several Evennes indexes.
+This is a wrapper to Petchey and Gaston FD indexes and Laliberte FD package. Hence most code is borrowed from them. It has some additions, most notably the dendogram measures can also be weighted by abundance as implemented in Gagic, Bartomeus et al. (2015 Proc B http://rspb.royalsocietypublishing.org/content/282/1801/20142620 ). There is also a function to calculate several Evennes indexes.
 
-This version is in development, so please report bugs, etc...
+This version is functional, but in development, so please report bugs, etc...
 
 To install the package run:
 
@@ -48,7 +48,7 @@ We can see that both families of indexes are correlated
 
 ```plot(FD_all$FDpg ~ FD_all$Frich)```
 
-Note that Functional richness indexes are highly correlated with richness, hence you may also want to know if those indexes are higher or lower than expected by its richness levels (See Rader et al. 2014 D&D in press for details)
+Note that Functional richness indexes are highly correlated with richness, hence you may also want to know if those indexes are higher or lower than expected by its richness levels (See Rader et al. 2014 D&D for details http://onlinelibrary.wiley.com/doi/10.1111/ddi.12221/abstract)
 
 ```{r}
 null <- null.FD(S = dummy$trait, A = dummy$abun, it = 100, w = NA)
