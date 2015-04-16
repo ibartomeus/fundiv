@@ -18,7 +18,7 @@
 #' ex1 <- betadiv(c1 = c("sp3", "sp2", "sp1", "sp4", "sp5"), c2 = c("sp6", "sp7", "sp8", "sp4", "sp5"))
 #' ex1
 
-betadiv  <-  function(c1,c2){
+beta  <-  function(c1,c2){
   B15 <- function(pm) with(pm,{(b+c)/(a+b+c)})
   B_3  <-  function(pm) with(pm,{2*min(b,c)/(a+b+c)}) 
   Brich  <-  function(pm) with(pm,{abs(b-c)/(a+b+c)})
