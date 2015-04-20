@@ -29,7 +29,7 @@ beta_dist = function(W){
   dBrich = dWN
   for(i in 1:nrow(W)){
     for(j in 1:nrow(W)){
-      partition = beta(names(which(W[i,] > 0)),names(which(W[j,] > 0)))
+      partition = beta_part(names(which(W[i,] > 0)),names(which(W[j,] > 0)))
       dBtot[i,j] = partition$Btot
       dB_3[i,j] = partition$B_3
       dBrich[i,j] = partition$Brich
