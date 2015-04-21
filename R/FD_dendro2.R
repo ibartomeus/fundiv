@@ -83,7 +83,7 @@ FD_dendro2 <- function(S = NULL, A, Tree = NULL, w = NA, Distance.method = "gowe
     xtree <- Xtree(tree)
     #calculate clustering  performance by using correlation between the cophenetic distance
     c_distance <- cor(D,cophenetic(tree))
-    Out[, 7] <- rep(cor(D , c_distance), nrow(Out))
+    Out[, 5] <- rep(c_distance, nrow(Out))
   } else{
     xtree <- Tree
   }
