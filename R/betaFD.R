@@ -43,6 +43,7 @@ betaFD <- function(c1,c2,S, Tree = NULL){
   fd <- FD_dendro2(S, A, Tree, Cluster.method = "average", ord = "podani")
   if(!is.na(fd$qual.FD[1])) print(paste("The quality of the dendogram is", round(fd$qual.FD[1], 2)))
   a = fd[which(fd$comm == "a"), "FDpg"]
+  if(!length(a) > 0) a = 0
   b = fd[which(fd$comm == "ab"), "FDpg"] - a 
   c = fd[which(fd$comm == "ac"), "FDpg"] - a
   branches <- list(a, b, c)
