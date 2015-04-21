@@ -30,18 +30,22 @@ betaFD <- function(c1,c2,S, Tree = NULL){
   b  <-  subset(c1, !c1 %in% c2)
   c <- subset(c2, !c2 %in% c1)
   a <- subset(c2, c2 %in% c1)
+  #add ac and ab
+  ac <- c(a,c)
+  ab <- c(a,b)  
   A_long <- data.frame(comm = c(rep("c1", length(c1)),
                                rep("c2", length(c2)),
                                rep("a", length(a)),
-                               rep("b", length(b)),
-                               rep("c", length(c))),
-                  species = c(c1,c2,a,b,c)) #note a,b or c can be not present if 0
+                               rep("ab", length(ab)),
+                               rep("ac", length(ac))),
+                  species = c(c1,c2,a,ab,ac)) #note a,b or c can be not present if 0
   A <- table(A_long$comm, A_long$species)
   fd <- FD_dendro2(S, A, Tree, Cluster.method = "average", ord = "podani")
   if(!is.na(fd$qual.FD[1])) print(paste("The quality of the dendogram is", round(fd$qual.FD[1], 2)))
-  branches <- list(a = fd[which(fd$comm == "a"), "FDpg"], 
-                   b = fd[which(fd$comm == "b"), "FDpg"], 
-                   c = fd[which(fd$comm == "c"), "FDpg"])
+  a = fd[which(fd$comm == "a"), "FDpg"]
+  b = fd[which(fd$comm == "ab"), "FDpg"] - a 
+  c = fd[which(fd$comm == "ac"), "FDpg"] - a
+  branches <- list(a, b, c)
   #recode non presences with 0's
   branches[is.na(branches > 0)] <- 0 
   beta_  <-  B15(branches)
