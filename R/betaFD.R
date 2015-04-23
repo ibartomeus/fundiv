@@ -50,8 +50,12 @@ betaFD <- function(c1,c2,S, Tree = NULL){
     c = fd[which(fd$comm == "all"), "FDpg"] - fd[which(fd$comm == "b"), "FDpg"]
     a = fd[which(fd$comm == "b"), "FDpg"] + fd[which(fd$comm == "c"), "FDpg"] - fd[which(fd$comm == "all"), "FDpg"]
   } else {
-    b = fd[which(fd$comm == "ab"), "FDpg"] - a 
-    c = fd[which(fd$comm == "ac"), "FDpg"] - a    
+    b_ = fd[which(fd$comm == "ab"), "FDpg"] - a 
+    c_ = fd[which(fd$comm == "ac"), "FDpg"] - a
+    a_ = b_ + c_ + a - fd[which(fd$comm == "all"), "FDpg"]
+    a = a + a_
+    b = b_ - a_
+    c = c_ - a_
   }
   branches <- list(a, b, c)
   #recode non presences with 0's
