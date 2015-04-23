@@ -62,7 +62,7 @@ betaFD <- function(c1,c2,S, Tree = NULL){
   beta_  <-  B15(branches)
   beta_3  <-  B_3(branches)
   beta_rich  <-  Brich(branches)
-  return(list(Btot = beta_, B_3 = beta_3, Brich = beta_rich)) 
+  return(list(Btot = round(beta_, 4), B_3 = round(beta_3, 4), Brich = round(beta_rich, 4))) 
 }
 
 
