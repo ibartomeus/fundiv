@@ -26,7 +26,7 @@ The dendrogram is ploted and returns a dataframe with the indexes.
 
 
 You may also want indexes based in trait space in FD package. You can run 'dbFD {FD}',
-or the wrapper below which alos includes other diversity metrics.
+or the wrapper below which also includes other diversity metrics.
 
 ```{r}
 FD_all <- FDindexes(S = dummy$trait, A = dummy$abun, Distance.method= "gower", ord= "podani", 
@@ -59,13 +59,13 @@ No much significant results in this dataset, but is not surprising given:
 
 ```plot(FD_all$FDpg ~ FD_all$n_sp)```
 
-You can calculate standardized FD indexes as in Radet et al 2014 by 
+You can calculate standardized FD indexes as in Rader et al. 2014 by 
 
 ```{r}
 (null$FD - null$null_meanFD) / null$null_sdFD
 ```
 
-Indexes implemented in Clark et al. 2012 are also available (`FD_Clark`), but in my opinion they perform very similar that the proposed FDw, but are computational time consuming because they need to 
+Indexes implemented in Clark et al. 2012 (Plos One) are also available (`FD_Clark`), but in my opinion they perform very similar that the proposed FDw, but are computational time consuming because they need to 
 create a dendogram for each community, instead of using only a general dendogram containing all species. This last approach is better according to the literature...
 
 Lastly I added the calculation of some evenness indexes. See ?Eve for details.

@@ -15,7 +15,7 @@
 #' or carabid beetles body length (mm)\code{}
 #' @param taxa string character indicating if length measure is from "Bees" or "Carabids"
 #'
-#' @return A vector of bee body masses is returned in (gr) for bees and (mg) for Carabids.
+#' @return A vector of bee body masses is returned in (gr) for bees and for Carabids.
 #'
 #' @keywords Bee, Carabids
 #'
