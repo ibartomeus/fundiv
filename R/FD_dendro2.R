@@ -96,11 +96,11 @@ FD_dendro2 <- function(S = NULL, A, Tree = NULL, w = NA, Distance.method = "gowe
     } else{
       i.primeC <- select_xtree
     }
-    Out[i,4] <- sum(i.primeC*xtree$h2.prime)
+    Out[i,"FDpg"] <- sum(i.primeC*xtree$h2.prime)
   }
   #standardize FD if needed
   if(stand.FD == TRUE){
-    Out[,"FDpg"] <- Out[,4]/max(Out[,4])
+    Out[,"FDpg"] <- Out[,"FDpg"]/max(Out[,"FDpg"])
   }
   Out
 }
