@@ -85,7 +85,7 @@ FD_dendro2 <- function(S = NULL, A, Tree = NULL, w = NA, Distance.method = "gowe
     c_distance <- cor(D,cophenetic(tree))
     Out[, 5] <- rep(c_distance, nrow(Out))
   } else{
-    xtree <- Tree
+    xtree <- Xtree(Tree)
   }
   #Calculate FD for each community
   for(i in 1:nrow(A)){
