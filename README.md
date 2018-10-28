@@ -10,7 +10,7 @@ To install the package run:
 ```{r}
 install.packages("devtools")
 require(devtools)
-install_github("fundiv", "ibartomeus")
+install_github("ibartomeus/fundiv")
 require(fundiv)
 ```
 
